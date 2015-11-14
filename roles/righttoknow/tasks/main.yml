@@ -36,6 +36,12 @@
     - wkhtmltopdf-static
     - pdftk
 
+- name: Install mysociety commonlib
+  git: 
+    repo: https://github.com/mysociety/commonlib.git
+    dest: /srv/www/current/commonlib
+    accept_hostkey: true
+
 - name: Install lockfile-progs for run-with-lockfile.sh
   apt: name=lockfile-progs
 
