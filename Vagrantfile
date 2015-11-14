@@ -63,20 +63,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.sudo = true
 
     # Uncomment the following line if you want some verbose output from ansible
-    #ansible.verbose = "vv"
+    ansible.verbose = "vvvv"
 
     # Don't try to setup DNS stuff when running things through vagrant
     # because chances are we're just doing things with development VMs anyway
     ansible.skip_tags = "dns"
 
     ansible.groups = {
-      "righttoknow"      => ["righttoknow.org.au.dev"],
-      "planningalerts"   => ["planningalerts.org.au.dev"],
-      "electionleaflets" => ["electionleaflets.org.au.dev"],
-      "theyvoteforyou"   => ["theyvoteforyou.org.au.dev"],
-      "oaf"              => ["oaf.org.au.dev"],
-      "openaustralia"    => ["openaustralia.org.au.dev"],
-      "morph"            => ["morph.io.dev"]
+      "righttoknow"      => ["righttoknow.org.au.dev"]
+      # "planningalerts"   => ["planningalerts.org.au.dev"],
+      # "electionleaflets" => ["electionleaflets.org.au.dev"],
+      # "theyvoteforyou"   => ["theyvoteforyou.org.au.dev"],
+      # "oaf"              => ["oaf.org.au.dev"],
+      # "openaustralia"    => ["openaustralia.org.au.dev"],
+      # "morph"            => ["morph.io.dev"]
     }
   end
 
@@ -87,13 +87,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   hosts = {
-    "righttoknow.org.au.dev"      => "192.168.10.10",
-    "planningalerts.org.au.dev"   => "192.168.10.11",
-    "electionleaflets.org.au.dev" => "192.168.10.12",
-    "theyvoteforyou.org.au.dev"   => "192.168.10.14",
-    "oaf.org.au.dev"              => "192.168.10.15",
-    "openaustralia.org.au.dev"    => "192.168.10.16",
-    "morph.io.dev"                => "192.168.10.17"
+    "righttoknow.org.au.dev"      => "192.168.10.10"
+    # "planningalerts.org.au.dev"   => "192.168.10.11",
+    # "electionleaflets.org.au.dev" => "192.168.10.12",
+    # "theyvoteforyou.org.au.dev"   => "192.168.10.14",
+    # "oaf.org.au.dev"              => "192.168.10.15",
+    # "openaustralia.org.au.dev"    => "192.168.10.16",
+    # "morph.io.dev"                => "192.168.10.17"
   }
 
   hosts.each do |hostname, ip|
