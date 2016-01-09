@@ -83,8 +83,8 @@ In your checked out copy of the Alaveteli repo add the following to `config/depl
 
 ```yaml
 development:
-  branch: update-rbenv-deploy
-  repository: git://github.com/openaustralia/alaveteli.git
+  branch: nvs-v23
+  repository: git://github.com/andreicristianpetcu/alaveteli.git
   server: righttoknow.org.au.dev
   user: deploy
   deploy_to: /srv/www
