@@ -53,7 +53,7 @@ WORKING_OR_CALENDAR_DAYS: calendar
 # script). Earlier in the list means the templates have a higher
 # priority.
 THEME_URLS:
- - 'git://github.com/openaustralia/righttoknow.git'
+ - 'git://github.com/andreicristianpetcu/alavetelitheme.git'
 
 # When rails-post-deploy installs the themes it will try this branch first
 # (but only if this config is set). If the branch doesn't exist it will fall
@@ -237,4 +237,4 @@ CACHE_FRAGMENTS: true
 # user via the user admin page.
 ALLOW_BATCH_REQUESTS: true
 
-RESPONSIVE_STYLING: false
+RESPONSIVE_STYLING: true
