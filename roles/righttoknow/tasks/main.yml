@@ -36,6 +36,10 @@
     - wkhtmltopdf-static
     - pdftk
     - imagemagick
+    - wv
+    - language-pack-ro
+    - pdftotext
+    - unzip
 
 - name: Install lockfile-progs for run-with-lockfile.sh
   apt: name=lockfile-progs
