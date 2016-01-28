@@ -27,14 +27,14 @@ TIME_ZONE: Australia/Sydney
 
 # These feeds are displayed accordingly on the Alaveteli "blog" page:
 BLOG_FEED: 'https://www.openaustraliafoundation.org.au/category/projects/righttoknow-org-au/feed/'
-TWITTER_USERNAME: 'righttoknowau'
+TWITTER_USERNAME: ''
 # Set the widget_id to get the Twitter sidebar on the blog page.
 # To get one https://twitter.com/settings/widgets
-TWITTER_WIDGET_ID: '263502299333267456'
+TWITTER_WIDGET_ID: ''
 
 # Locales we wish to support in this app, space-delimited
-AVAILABLE_LOCALES: en
-DEFAULT_LOCALE: en
+AVAILABLE_LOCALES: 'ro_RO en'
+DEFAULT_LOCALE: 'ro_RO'
 USE_DEFAULT_BROWSER_LANGUAGE: true
 
 # How many days should have passed before an answer to a request is officially late?
@@ -150,7 +150,7 @@ USE_GHOSTSCRIPT_COMPRESSION: true
 GAZE_URL: http://gaze.mysociety.org
 
 # The email address to which non-bounce responses should be forwarded
-FORWARD_NONBOUNCE_RESPONSES_TO: web-administrators@openaustralia.org
+FORWARD_NONBOUNCE_RESPONSES_TO: admin@nuvasuparati.info
 
 # Path to a program that converts a page at a URL to HTML.  It should
 # take two arguments: the URL, and a path to an output file.  A static
@@ -161,8 +161,8 @@ FORWARD_NONBOUNCE_RESPONSES_TO: web-administrators@openaustralia.org
 HTML_TO_PDF_COMMAND: /usr/bin/wkhtmltopdf-static
 
 # Exception notifications
-EXCEPTION_NOTIFICATIONS_FROM: Alaveteli Production <web-administrators@openaustralia.org>
-EXCEPTION_NOTIFICATIONS_TO: web-administrators@openaustralia.org
+EXCEPTION_NOTIFICATIONS_FROM: Alaveteli Production <admin@nuvasuparati.info>
+EXCEPTION_NOTIFICATIONS_TO: admin@nuvasuparati.info
 
 # This rate limiting can be turned off per-user via the admin interface
 MAX_REQUESTS_PER_USER_PER_DAY: 6

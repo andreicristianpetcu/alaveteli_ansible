@@ -93,7 +93,7 @@ define ("REPORTLIST", CONTACTEMAIL);
 define ("BCCADDRESS", CONTACTEMAIL);
 
 // All error emails go to this address.
-define ("BUGSLIST", "web-administrators@openaustralia.org");
+define ("BUGSLIST", "admin@nuvasuparati.info");
 
 // Email addresses that alertmailer.php sends stats to
 define('ALERT_STATS_EMAILS', BUGSLIST);

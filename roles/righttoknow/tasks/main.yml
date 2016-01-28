@@ -38,8 +38,8 @@
     - imagemagick
     - wv
     - language-pack-ro
-    - pdftotext
     - unzip
+    - poppler-utils
 
 - name: Install lockfile-progs for run-with-lockfile.sh
   apt: name=lockfile-progs
@@ -94,7 +94,7 @@
 
 - name: Add development private SSL key
   copy: content="{{ righttoknow_development_ssl_key }}" dest=/etc/ssl/private/righttoknow.org.au.dev.key owner=root group=ssl-cert mode=0640
-  notify: nginx relod
+  notify: nginx reload
 
 #- name: Add test self signed SSL certificate
 #  copy: src=test.righttoknow.org.au.pem dest=/etc/ssl/test.righttoknow.org.au.pem owner=root group=root mode=0644

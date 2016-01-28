@@ -5,7 +5,7 @@ dependencies:
   - role: xcezx.aliases
     aliases:
       - {user: deploy, alias: root}
-      - {user: root, alias: web-administrators@openaustralia.org}
+      - {user: root, alias: admin@nuvasuparati.info}
   - role: ANXS.ntp
   - role: jnv.unattended-upgrades
     unattended_automatic_reboot: true
