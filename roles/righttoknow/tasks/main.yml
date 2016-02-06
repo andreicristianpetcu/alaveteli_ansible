@@ -81,7 +81,7 @@
   notify: nginx reload
 
 - name: Copy nginx config for the app
-  copy: src=default dest=/etc/nginx/sites-available/ owner=root group=root mode=644
+  template: src=default dest=/etc/nginx/sites-available/ owner=root group=root mode=644
   notify: nginx reload
 
 - name: Copy across the main Alaveteli config

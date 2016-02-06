@@ -12,7 +12,7 @@ server {
 # HTTPS
 server {
   listen 443 ssl spdy;
-  server_name righttoknow.org.au.dev;
+  server_name {{alaveteli_host}};
 
   location ^~ /assets/ {
     gzip_static on;
