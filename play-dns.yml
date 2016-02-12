@@ -1,0 +1,13 @@
+---
+- name: deploy dns stuff
+  route53:
+    command: create
+    aws_access_key: 'AKIAJ6GBBG3AZ6Z4PTHA'
+    aws_secret_key: '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'
+    zone: nuvasuparati.info
+    record: test.nuvasuparati.info
+    type: A
+    ttl: 7200
+    value: 1.1.1.1
+    wait: yes
+  connection: local
