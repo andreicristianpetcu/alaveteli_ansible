@@ -2,8 +2,8 @@
 - name: deploy dns stuff
   route53:
     command: create
-    aws_access_key: 'AKIAJ6GBBG3AZ6Z4PTHA'
-    aws_secret_key: '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'
+    aws_access_key: '{{ encrypted_route53_key }}'
+    aws_secret_key: '{{ encrypted_route53_secret }}'
     zone: test.nuvasuparati.info
     record: smtp2.test.nuvasuparati.info
     type: A

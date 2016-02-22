@@ -6,5 +6,5 @@
     - custom_modules
     - righttoknow
     - { role: 'route53dns', tags: [ 'route53dns' ] }
-  # vars_files:
-    # - encrypted_vars/righttoknow.yml
+  vars_files:
+    - roles/righttoknow/vars/encrypted.yml
