@@ -1,12 +1,18 @@
 ---
+- name: Register public IP
+  shell: wget -qO- http://ipecho.net/plain ; echo
+  register: host_ip
+
+- debug: msg="My host_ip is {{ host_ip.stdout }}!"
+
 - name: deploy dns stuff
   route53:
     command: create
     aws_access_key: '{{ encrypted_route53_key }}'
     aws_secret_key: '{{ encrypted_route53_secret }}'
     zone: test.nuvasuparati.info
-    record: smtp2.test.nuvasuparati.info
+    record: test.nuvasuparati.info
     type: A
     ttl: 7200
-    value: 1.1.1.5
+    value: "{{ host_ip.stdout }}"
     overwrite: true
