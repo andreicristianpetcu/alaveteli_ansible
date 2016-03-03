@@ -52,3 +52,25 @@
     ttl: 7200
     value: '"o=~; r=postmaster@{{ ansible_nodename }}"'
     overwrite: true
+
+- name: Generate DKIM key pair
+  shell: "opendkim-genkey -s mail -d {{ ansible_nodename }}"
+  tags:
+    - dkim
+
+- replace: dest=mail.txt regexp='\n' replace=''
+  tags:
+    - dkim
+    - sed
+
+- name: Process DKIM public key for DNS
+  shell: "grep -oe '\"p=\\(.*\\)\"' mail.txt"
+  register: dkim_public_key
+  tags:
+    - dkim
+    - sed
+
+- debug: msg="My dkim public key is {{ dkim_public_key.stdout }}!"
+  tags:
+    - dkim
+    - sed
