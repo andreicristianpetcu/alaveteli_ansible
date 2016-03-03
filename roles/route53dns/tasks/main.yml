@@ -61,16 +61,23 @@
 - replace: dest=mail.txt regexp='\n' replace=''
   tags:
     - dkim
-    - sed
 
 - name: Process DKIM public key for DNS
-  shell: "grep -oe '\"p=\\(.*\\)\"' mail.txt"
+  shell: "grep -oe 'p=\\(.*\\)\"' mail.txt"
   register: dkim_public_key
   tags:
     - dkim
-    - sed
 
-- debug: msg="My dkim public key is {{ dkim_public_key.stdout }}!"
+- name: setup DKIM public DNS key
+  route53:
+    command: create
+    aws_access_key: '{{ encrypted_route53_key }}'
+    aws_secret_key: '{{ encrypted_route53_secret }}'
+    zone: '{{ansible_nodename}}'
+    record: 'rsa1._domainkey.{{ansible_nodename}}.'
+    type: TXT
+    ttl: 7200
+    value: '"v=DKIM1; k=rsa; {{ dkim_public_key.stdout }}'
+    overwrite: true
   tags:
     - dkim
-    - sed
