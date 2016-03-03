@@ -40,6 +40,11 @@
     - language-pack-ro
     - unzip
     - poppler-utils
+    - opendkim
+    - opendkim-tools
+  tags:
+    - apt-get
+    - packages
 
 - name: Install lockfile-progs for run-with-lockfile.sh
   apt: name=lockfile-progs
