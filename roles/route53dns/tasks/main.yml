@@ -28,3 +28,15 @@
     ttl: 7200
     value: "10 {{ ansible_nodename }}."
     overwrite: true
+    
+- name: setup TXT spf record for test
+  route53:
+    command: create
+    aws_access_key: '{{ encrypted_route53_key }}'
+    aws_secret_key: '{{ encrypted_route53_secret }}'
+    zone: '{{ansible_nodename}}'
+    record: '{{ansible_nodename}}'
+    type: TXT
+    ttl: 7200
+    value: '"v=spf1 ip4:{{ host_ip.stdout }} -all"'
+    overwrite: true
