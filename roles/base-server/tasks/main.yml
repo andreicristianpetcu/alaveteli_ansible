@@ -23,6 +23,12 @@
     port: https
     proto: tcp
 
+- name: Allow SMTP traffic
+  ufw:
+    rule: allow
+    port: smtp
+    proto: tcp
+
 - name: Ensure git is installed
   apt:
     pkg: git
