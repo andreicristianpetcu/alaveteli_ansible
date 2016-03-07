@@ -87,7 +87,7 @@ ADMIN_PASSWORD: '{{ alavateli_admin_password }}'
 SKIP_ADMIN_AUTH: false
 
 # Email "from" details
-CONTACT_EMAIL: 'contact@{{ alaveteli_host }}'
+CONTACT_EMAIL: 'andreip@posteo.net'
 CONTACT_NAME: 'Right to Know'
 
 # Email "from" details for track messages
