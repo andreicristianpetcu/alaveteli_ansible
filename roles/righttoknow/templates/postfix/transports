@@ -1,2 +1,2 @@
-/^foi\+.*@test.nuvasuparati.info$/           alaveteli
-/^user-support@test.nuvasuparati.info$/            alaveteli_replies
+/^foi\+.*@{{ alaveteli_host }}$/           alaveteli
+/^user-support@{{ alaveteli_host }}$/            alaveteli_replies
