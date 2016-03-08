@@ -160,7 +160,6 @@
     - postfix/recipient_bcc
     - postfix/recipients
     - postfix/transports
-    - aliases
   tags: postfix
   notify:
     - reload postfix

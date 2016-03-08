@@ -1,9 +1,0 @@
-# See man 5 aliases for format
-postmaster:    root
-deploy: root
-root: admin@{{ alaveteli_host }}
-team: andreip@posteo.net
-user-support: team
-# We use this for envelope from for some messages where
-# we don't care about delivery
-do-not-reply-to-this-address:        /dev/null

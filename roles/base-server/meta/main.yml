@@ -4,8 +4,13 @@ dependencies:
     github_users: ['andreicristianpetcu']
   - role: xcezx.aliases
     aliases:
+      - {user: postmaster, alias: root}
       - {user: deploy, alias: root}
-      - {user: root, alias: admin@nuvasuparati.info}
+      - {user: root, alias: "admin@{{ alaveteli_host }}"}
+      - {user: team, alias: andreip@posteo.net}
+      - {user: user-support, alias: team}
+      - {user: do-not-reply-to-this-address, alias: /dev/null}
+    tags: aliases
   - role: ANXS.ntp
   - role: jnv.unattended-upgrades
     unattended_automatic_reboot: true
