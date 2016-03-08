@@ -149,6 +149,22 @@
     groups: adm
     append: yes
 
+- name: Copy postfix scripts for daemons
+  template:
+    dest: /etc/{{ item }}
+    src: "{{ item }}"
+    mode: 0644
+  with_items:
+    - postfix/main.cf
+    - postfix/master.cf
+    - postfix/recipient_bcc
+    - postfix/recipients
+    - postfix/transports
+    - aliases
+  tags: postfix
+  notify:
+    - reload postfix
+
 #- name: DNS setup for Alaveteli
 #  dnsmadeeasy: account_key={{ dnsmadeeasy_key }} account_secret={{ dnsmadeeasy_secret }} domain="righttoknow.org.au" record_ttl=1800 state=present record_name="{{ item.name }}" record_type="{{ item.type }}" record_value='{{ item.value }}'
 #  tags:

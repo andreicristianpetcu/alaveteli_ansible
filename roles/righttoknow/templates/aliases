@@ -1,7 +1,7 @@
 # See man 5 aliases for format
 postmaster:    root
 deploy: root
-root: admin@nuvasuparati.info
+root: admin@{{ alaveteli_host }}
 team: andreip@posteo.net
 user-support: team
 # We use this for envelope from for some messages where

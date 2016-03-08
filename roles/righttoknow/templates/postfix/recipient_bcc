@@ -1,1 +1,1 @@
-/^foi\+.*@example.com$/                backupfoi
+/^foi\+.*@{{ alaveteli_host }}$/                backupfoi
