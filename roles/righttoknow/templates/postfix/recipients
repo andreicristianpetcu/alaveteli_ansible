@@ -1,0 +1,4 @@
+/^foi.*/                this-is-ignored
+/^postmaster@/          this-is-ignored
+/^user-support@/        this-is-ignored
+/^team@/                this-is-ignored
