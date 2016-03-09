@@ -123,6 +123,6 @@ mailman   unix  -       n       n       -       -       pipe
   ${nexthop} ${user}
 
 alaveteli_replies unix  - n n - 50 pipe
-  flags=R user=deploy argv=/srv/www/current/script/handle-mail-replies
+  flags=R user=deploy argv=/usr/bin/run-with-rbenv-path /srv/www/current/script/handle-mail-replies
 alaveteli unix  - n n - 50 pipe
-  flags=R user=deploy argv=/srv/www/current/script/mailin
+  flags=R user=deploy argv=/usr/bin/run-with-rbenv-path /srv/www/current/script/mailin

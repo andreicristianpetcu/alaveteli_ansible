@@ -149,6 +149,15 @@
     groups: adm
     append: yes
 
+- name: Copy run-with-rbenv-path for postfix
+  copy:
+    src: run-with-rbenv-path
+    dest: /usr/bin/run-with-rbenv-path
+    mode: 0755
+  tags: postfix
+  notify:
+    - reload postfix
+
 - name: Copy postfix scripts for daemons
   template:
     dest: /etc/{{ item }}
