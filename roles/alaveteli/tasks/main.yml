@@ -42,6 +42,7 @@
     - poppler-utils
     - opendkim
     - opendkim-tools
+    - python-pip
   tags:
     - apt-get
     - packages
