@@ -29,7 +29,7 @@
     record: '{{ alaveteli_host }}'
     type: MX
     ttl: 7200
-    value: "10 {{ ansible_nodename }}."
+    value: "10 {{ alaveteli_host }}."
     overwrite: true
     
 - name: setup TXT spf record for test
@@ -53,11 +53,11 @@
     record: '_domainkey.{{ alaveteli_host }}.'
     type: TXT
     ttl: 7200
-    value: '"o=~; r=postmaster@{{ ansible_nodename }}"'
+    value: '"o=~; r=postmaster@{{ alaveteli_host }}"'
     overwrite: true
 
 - name: Generate DKIM key pair
-  shell: "opendkim-genkey -s mail -d {{ ansible_nodename }}"
+  shell: "opendkim-genkey -s mail -d {{ alaveteli_host }}"
   tags:
     - dkim
 
