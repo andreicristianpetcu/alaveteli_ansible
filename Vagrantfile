@@ -27,7 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.skip_tags = "dns"
 
     ansible.groups = {
-      "righttoknow" => ["#{alaveteli_host}"] 
+      "alaveteli" => ["#{alaveteli_host}"] 
     }
   end
 
