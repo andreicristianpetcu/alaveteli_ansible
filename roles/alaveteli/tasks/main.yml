@@ -42,6 +42,7 @@
     - poppler-utils
     - opendkim
     - opendkim-tools
+    - python-pip
   tags:
     - apt-get
     - packages
@@ -155,6 +156,16 @@
     dest: /usr/bin/run-with-rbenv-path
     mode: 0755
   tags: postfix
+  notify:
+    - reload postfix
+
+- name: Set the alaveteli name in mailname
+  lineinfile:
+    dest: /etc/mailname
+    regexp: ".*"
+    line: "{{ alaveteli_host }}"
+    create: true
+  tags: mailname postfix
   notify:
     - reload postfix
 

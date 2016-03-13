@@ -5,13 +5,16 @@
 
 - debug: msg="My host_ip is {{ host_ip.stdout }}!"
 
+- name: Install boto for route53
+  pip: name=boto
+
 - name: setup A record for test
   route53:
     command: create
     aws_access_key: '{{ encrypted_route53_key }}'
     aws_secret_key: '{{ encrypted_route53_secret }}'
-    zone: '{{ansible_nodename}}'
-    record: '{{ansible_nodename}}'
+    zone: '{{ alaveteli_host }}'
+    record: '{{ alaveteli_host }}'
     type: A
     ttl: 7200
     value: "{{ host_ip.stdout }}"
@@ -22,11 +25,11 @@
     command: create
     aws_access_key: '{{ encrypted_route53_key }}'
     aws_secret_key: '{{ encrypted_route53_secret }}'
-    zone: '{{ansible_nodename}}'
-    record: '{{ansible_nodename}}'
+    zone: '{{ alaveteli_host }}'
+    record: '{{ alaveteli_host }}'
     type: MX
     ttl: 7200
-    value: "10 {{ ansible_nodename }}."
+    value: "10 {{ alaveteli_host }}."
     overwrite: true
     
 - name: setup TXT spf record for test
@@ -34,8 +37,8 @@
     command: create
     aws_access_key: '{{ encrypted_route53_key }}'
     aws_secret_key: '{{ encrypted_route53_secret }}'
-    zone: '{{ansible_nodename}}'
-    record: '{{ansible_nodename}}'
+    zone: '{{ alaveteli_host }}'
+    record: '{{ alaveteli_host }}'
     type: TXT
     ttl: 7200
     value: '"v=spf1 ip4:{{ host_ip.stdout }} -all"'
@@ -46,15 +49,15 @@
     command: create
     aws_access_key: '{{ encrypted_route53_key }}'
     aws_secret_key: '{{ encrypted_route53_secret }}'
-    zone: '{{ansible_nodename}}'
-    record: '_domainkey.{{ansible_nodename}}.'
+    zone: '{{ alaveteli_host }}'
+    record: '_domainkey.{{ alaveteli_host }}.'
     type: TXT
     ttl: 7200
-    value: '"o=~; r=postmaster@{{ ansible_nodename }}"'
+    value: '"o=~; r=postmaster@{{ alaveteli_host }}"'
     overwrite: true
 
 - name: Generate DKIM key pair
-  shell: "opendkim-genkey -s mail -d {{ ansible_nodename }}"
+  shell: "opendkim-genkey -s mail -d {{ alaveteli_host }}"
   tags:
     - dkim
 
@@ -73,8 +76,8 @@
     command: create
     aws_access_key: '{{ encrypted_route53_key }}'
     aws_secret_key: '{{ encrypted_route53_secret }}'
-    zone: '{{ansible_nodename}}'
-    record: 'rsa1._domainkey.{{ansible_nodename}}.'
+    zone: '{{ alaveteli_host }}'
+    record: 'rsa1._domainkey.{{ alaveteli_host }}.'
     type: TXT
     ttl: 7200
     value: '"v=DKIM1; k=rsa; {{ dkim_public_key.stdout }}'
