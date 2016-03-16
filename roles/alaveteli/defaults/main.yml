@@ -1,2 +1,6 @@
 ---
 # defaults file for righttoknow
+  letsencrypt_webroot_path: /srv/www/current
+  letsencrypt_email: "root@{{ alaveteli_host }}"
+  letsencrypt_cert_domains:
+   - "{{ alaveteli_host }}"
