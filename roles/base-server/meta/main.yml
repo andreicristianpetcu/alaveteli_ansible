@@ -7,6 +7,7 @@ dependencies:
       - {user: postmaster, alias: root}
       - {user: deploy, alias: root}
       - {user: root, alias: "admin@{{ alaveteli_host }}"}
+      - {user: admin, alias: andreip@posteo.net}
       - {user: team, alias: andreip@posteo.net}
       - {user: user-support, alias: team}
       - {user: do-not-reply-to-this-address, alias: /dev/null}
