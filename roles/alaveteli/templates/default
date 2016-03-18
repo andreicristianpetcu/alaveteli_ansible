@@ -20,9 +20,18 @@ server {
     add_header Cache-Control public;
   }
 
+
   root /srv/www/current/public;
   passenger_enabled on;
   passenger_ruby /home/deploy/.rbenv/shims/ruby;
+
+  # ACME Challange location
+  location /.well-known/acme-challenge {
+    alias /etc/letsencrypt/webrootauth/.well-known/acme-challenge;
+    location ~ /.well-known/acme-challenge/(.*) {
+      add_header Content-Type application/jose+json;
+    }
+  }
 
   ssl on;
   ssl_certificate /etc/ssl/righttoknow.org.au.dev.pem;

@@ -76,8 +76,13 @@
     - foi-alert-tracks
     - foi-purge-varnish
 
+- name: Create ACME nginx folder
+  file: path=/etc/letsencrypt/webrootauth/.well-known/acme-challenge state=directory mode=0644
+  tags: nginx
+
 - name: Generate the overall nginx config
   template: src=nginx.conf dest=/etc/nginx/nginx.conf
+  tags: nginx
   notify: nginx reload
 
 - name: Copy test/test password for staging site
@@ -88,6 +93,7 @@
 
 - name: Copy nginx config for the app
   template: src=default dest=/etc/nginx/sites-available/ owner=root group=root mode=644
+  tags: nginx
   notify: nginx reload
 
 - name: Copy across the main Alaveteli config
