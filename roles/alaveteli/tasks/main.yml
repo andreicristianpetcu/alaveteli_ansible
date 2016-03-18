@@ -40,9 +40,6 @@
     - language-pack-ro
     - unzip
     - poppler-utils
-    - opendkim
-    - opendkim-tools
-    - python-pip
   tags:
     - apt-get
     - packages

@@ -5,6 +5,16 @@
 
 - debug: msg="My host_ip is {{ host_ip.stdout }}!"
 
+- name: Install packages required by Route53
+  apt: name={{ item }} state=present update_cache=True
+  with_items:
+    - opendkim
+    - opendkim-tools
+    - python-pip
+  tags:
+    - apt-get
+    - packages
+
 - name: Install boto for route53
   pip: name=boto
 

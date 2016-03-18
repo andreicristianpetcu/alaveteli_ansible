@@ -3,9 +3,9 @@
 
 - hosts: alaveteli
   roles:
+    - { role: 'route53dns', tags: [ 'dns' ] }
     - custom_modules
     - alaveteli
-    - { role: 'route53dns', tags: [ 'dns' ] }
     - { role: 'andreaswolf.letsencrypt', tags: [ 'letsencrypt' ] }
   vars_files:
     - roles/alaveteli/vars/encrypted.yml
