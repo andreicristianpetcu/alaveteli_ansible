@@ -3,7 +3,7 @@
 letsencrypt_certs:
  -
     name: "{{ alaveteli_host }}"
-    keypath: "/etc/ssl/{{ alaveteli_host }}.key"
+    keypath: "/etc/ssl/private/{{ alaveteli_host }}.key"
     certpath: "/etc/ssl/{{ alaveteli_host }}.crt"
     host: "{{ alaveteli_host }}"
 db_password: "{{ encrypted_db_password }}"
