@@ -1,4 +1,7 @@
 # Install a role from a specific git branch
-- name: letsencrypt
+- name: andreaswolf.letsencrypt
   src: https://github.com/andreaswolf/ansible-role-letsencrypt.git
   version: v1.1
+- name: thefinn93.ansible-letsencrypt
+  src: https://github.com/thefinn93/ansible-letsencrypt.git
+  version: 760f543
