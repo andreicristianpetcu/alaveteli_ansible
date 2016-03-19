@@ -4,7 +4,6 @@
 - hosts: alaveteli
   roles:
     - { role: 'route53dns', tags: [ 'dns', 'nondev' ] }
-    - custom_modules
     - alaveteli
   vars_files:
     - roles/alaveteli/vars/encrypted.yml
