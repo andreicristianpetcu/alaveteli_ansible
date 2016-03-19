@@ -6,16 +6,12 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  alaveteli_host=ENV['ALAVETELI_HOST'] || "alaveteli.org.dev"
+  alaveteli_host = "alaveteli.org.dev"
 
   config.vm.box = "ubuntu/trusty64"
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "site.yml"
-
-    ansible.extra_vars = {
-      alaveteli_host: "#{alaveteli_host}"
-    }
 
     ansible.sudo = true
 

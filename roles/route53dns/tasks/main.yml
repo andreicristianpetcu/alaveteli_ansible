@@ -3,7 +3,7 @@
   shell: wget -qO- http://ipecho.net/plain ; echo
   register: host_ip
 
-- debug: msg="My host_ip is {{ host_ip.stdout }}!"
+- debug: msg="My host_ip is {{ host_ip.stdout }} and alaveteli_host is {{ alaveteli_host }}!"
 
 - name: Install packages required by Route53
   apt: name={{ item }} state=present update_cache=True
