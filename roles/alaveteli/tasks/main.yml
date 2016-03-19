@@ -195,14 +195,15 @@
 
 - name: "Include Andreaswolf's letsencrypt role"
   include: '../../andreaswolf.letsencrypt/tasks/main.yml'
-  tags: letsencrypt
+  tags: [ 'letsencrypt', 'nondev' ]
 
 - name: Enable TLS in Nginx configs
   lineinfile:
     dest: /etc/nginx/sites-enabled/default
-    regexp: "#ssl on;"
-    line: "  ssl on;"
+    regexp: '(.*)#ssl(.*)'
+    line: '\1ssl\2'
+    backrefs: 'yes'
     create: true
-  tags: [ "letsencrypt", "dev" ]
+  tags: [ 'letsencrypt', 'dev', 'nondev' ]
   notify:
     - reload nginx
