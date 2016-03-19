@@ -41,9 +41,10 @@ server {
     }
   }
 
+  #The TLS settings will be enabled only after Let's Encrypt runs the ACME challange
   #ssl on;
-  ssl_certificate /etc/ssl/{{ alaveteli_host }}.crt;
-  ssl_certificate_key /etc/ssl/private/{{ alaveteli_host }}.key;
+  #ssl_certificate /etc/ssl/{{ alaveteli_host }}.crt;
+  #ssl_certificate_key /etc/ssl/private/{{ alaveteli_host }}.key;
 
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
   ssl_prefer_server_ciphers on;

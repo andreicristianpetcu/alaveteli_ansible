@@ -200,10 +200,14 @@
 - name: Enable TLS in Nginx configs
   lineinfile:
     dest: /etc/nginx/sites-enabled/default
-    regexp: '(.*)#ssl(.*)'
-    line: '\1ssl\2'
+    regexp: '(.*)#{{ item }}(.*)'
+    line: '\1{{ item }}\2'
     backrefs: 'yes'
     create: true
+  with_items:
+    - "ssl on"
+    - "ssl_certificate "
+    - "ssl_certificate_key "
   tags: [ 'letsencrypt', 'dev', 'nondev' ]
   notify:
-    - reload nginx
+    - restart nginx
