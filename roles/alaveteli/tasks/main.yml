@@ -63,6 +63,7 @@
 - name: Copy over database configuration for application
   template: src=database.yml dest=/srv/www/shared/database.yml owner=deploy group=deploy
   notify: nginx restart
+  tags: nginx
 
 - name: Copy init scripts for daemons
   copy:
@@ -88,6 +89,7 @@
     src: htpasswd
     dest: /etc/nginx/
   notify: nginx reload
+  tags: nginx
 
 - name: Copy nginx config for the app
   template: src=default dest=/etc/nginx/sites-available/ owner=root group=root mode=644
@@ -97,14 +99,17 @@
 - name: Copy across the main Alaveteli config
   template: src=general.yml dest=/srv/www/shared/ owner=deploy group=deploy
   notify: nginx restart
+  tags: nginx
 
-- name: Add development self signed SSL certificate
-  copy: src=righttoknow.org.au.dev.pem dest=/etc/ssl/righttoknow.org.au.dev.pem owner=root group=root mode=0644
-  notify: nginx reload
-
-- name: Add development private SSL key
-  copy: content="{{ righttoknow_development_ssl_key }}" dest=/etc/ssl/private/righttoknow.org.au.dev.key owner=root group=ssl-cert mode=0640
-  notify: nginx reload
+#- name: Add development self signed SSL certificate
+#  copy: src=alaveteli.org.dev.crt dest=/etc/ssl/{{ alaveteli_host }}.crt owner=root group=root mode=0644
+#  notify: nginx reload
+#  tags: nginx
+# 
+#- name: Add development self signed SSL private key
+#  copy: src=alaveteli.org.dev.key dest=/etc/ssl/private/{{ alaveteli_host }}.key owner=root group=ssl-cert mode=0644
+#  notify: nginx reload
+#  tags: nginx
 
 - name: Add alaveteli crontab entry
   cron: name="foi-alert-tracks" minute="0,10,20,30,40,50" job="/bin/bash -l -c 'sudo /etc/init.d/foi-alert-tracks check'"
@@ -187,3 +192,6 @@
   tags: postfix
   notify:
     - reload postfix
+
+- include: '../../andreaswolf.letsencrypt/tasks/main.yml'
+  tags: [ 'letsencrypt' ]

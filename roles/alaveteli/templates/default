@@ -2,7 +2,15 @@
 ## HTTP
 server {
   listen 80;
-  server_name righttoknow.org.au.dev;
+  server_name {{ alaveteli_host }};
+
+  # ACME Challange location
+  location /.well-known/acme-challenge {
+    alias /var/www/letsencrypt/;
+    location ~ /.well-known/acme-challenge/(.*) {
+      add_header Content-Type application/jose+json;
+    }
+  }
 
   root /srv/www/current/public;
   passenger_enabled on;
@@ -12,7 +20,7 @@ server {
 # HTTPS
 server {
   listen 443 ssl spdy;
-  server_name {{alaveteli_host}};
+  server_name {{ alaveteli_host }};
 
   location ^~ /assets/ {
     gzip_static on;
@@ -33,7 +41,7 @@ server {
     }
   }
 
-  ssl on;
+  #ssl on;
   ssl_certificate /etc/ssl/{{ alaveteli_host }}.crt;
   ssl_certificate_key /etc/ssl/private/{{ alaveteli_host }}.key;
 
