@@ -193,5 +193,16 @@
   notify:
     - reload postfix
 
-- include: '../../andreaswolf.letsencrypt/tasks/main.yml'
-  tags: [ 'letsencrypt' ]
+- name: "Include Andreaswolf's letsencrypt role"
+  include: '../../andreaswolf.letsencrypt/tasks/main.yml'
+  tags: letsencrypt
+
+- name: Enable TLS in Nginx configs
+  lineinfile:
+    dest: /etc/nginx/sites-enabled/default
+    regexp: "#ssl on;"
+    line: "  ssl on;"
+    create: true
+  tags: [ "letsencrypt", "dev" ]
+  notify:
+    - reload nginx
