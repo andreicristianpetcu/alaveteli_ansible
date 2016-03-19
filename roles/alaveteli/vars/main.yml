@@ -1,5 +1,4 @@
 ---
-#acme_tiny_challenges_directory: "/srv/www/current/public"
 alaveteli_host: "{{ inventory_hostname }}"
 letsencrypt_certs:
  -
