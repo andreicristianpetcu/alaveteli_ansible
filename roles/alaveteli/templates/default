@@ -12,6 +12,12 @@ server {
     }
   }
 
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
+
   root /srv/www/current/public;
   passenger_enabled on;
   passenger_ruby /home/deploy/.rbenv/shims/ruby;
@@ -22,17 +28,6 @@ server {
   listen 443 ssl spdy;
   server_name {{ alaveteli_host }};
 
-  location ^~ /assets/ {
-    gzip_static on;
-    expires max;
-    add_header Cache-Control public;
-  }
-
-
-  root /srv/www/current/public;
-  passenger_enabled on;
-  passenger_ruby /home/deploy/.rbenv/shims/ruby;
-
   # ACME Challange location
   location /.well-known/acme-challenge {
     alias /var/www/letsencrypt/;
@@ -40,6 +35,16 @@ server {
       add_header Content-Type application/jose+json;
     }
   }
+
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
+
+  root /srv/www/current/public;
+  passenger_enabled on;
+  passenger_ruby /home/deploy/.rbenv/shims/ruby;
 
   #The TLS settings will be enabled only after Let's Encrypt runs the ACME challange
   #ssl on;

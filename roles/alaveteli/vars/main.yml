@@ -6,6 +6,8 @@ letsencrypt_certs:
     keypath: "/etc/ssl/private/{{ alaveteli_host }}.key"
     certpath: "/etc/ssl/{{ alaveteli_host }}.crt"
     host: "{{ alaveteli_host }}"
+letsencrypt_user: 'deploy'
+letsencrypt_group: 'deploy'
 db_password: "{{ encrypted_db_password }}"
 alavateli_incoming_email_secret: '{{ encrypted_alavateli_incoming_email_secret }}'
 alavateli_admin_password: '{{ encrypted_alavateli_admin_password }}'
