@@ -1,0 +1,9 @@
+---
+encrypted_db_password: 'aaaaaaaaaaaa'
+encrypted_alavateli_incoming_email_secret: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+encrypted_alavateli_admin_password: 'cccccccccccc'
+encrypted_alaveteli_cookie_store_session_secret: 'dddddddddddddddddddddddddddddddddddddddddddddddddd'
+encrypted_alaveteli_recaptcha_public_key: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+encrypted_alaveteli_recaptcha_private_key: 'ffffffffffffffffffffffffffffffffffffffff'
+encrypted_route53_key: 'gggggggggggggggggggg'
+encrypted_route53_secret: 'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh'
