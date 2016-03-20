@@ -58,8 +58,23 @@ Foundation Alaveteli repo as it contains some small fixes to allow capistrano to
 In your checked out copy of the Alaveteli repo add the following to `config/deploy.yml`
 
 ```yaml
+# Site-specific deployment configuration lives in this file
+production:
+  branch: 0.23.2.2
+  repository: git://github.com/andreicristianpetcu/alaveteli.git
+  server: mynewalaveteli.org
+  user: deploy
+  rails_env: production
+  deploy_to: /srv/www/alaveteli_production
+staging:
+  branch: 0.23.2.2
+  repository: git://github.com/andreicristianpetcu/alaveteli.git
+  server: test.mynewalaveteli.org
+  user: deploy
+  rails_env: production
+  deploy_to: /srv/www
 development:
-  branch: nvs-v23
+  branch: 0.23.2.2
   repository: git://github.com/andreicristianpetcu/alaveteli.git
   server: alaveteli.org.dev
   user: deploy
