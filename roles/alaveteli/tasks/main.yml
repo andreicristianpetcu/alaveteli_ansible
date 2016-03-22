@@ -200,3 +200,13 @@
   tags: [ 'letsencrypt', 'nondev', 'https' ]
   notify:
     - restart nginx
+
+- name: Set FORCE_SSL to true
+  lineinfile:
+    dest: /srv/www/current/config/general.yml
+    regexp: '(.*)FORCE_SSL:(.*)'
+    line: 'FORCE_SSL: true'
+    state: present
+  tags: [ 'https', 'nondev' ]
+  notify:
+    - restart nginx
