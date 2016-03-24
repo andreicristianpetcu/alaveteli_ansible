@@ -17,4 +17,4 @@ alaveteli_recaptcha_private_key: '{{ encrypted_alaveteli_recaptcha_private_key }
 # TODO These keys are replicated in the roles. Remove this duplication
 route53_key: "{{ encrypted_route53_key }}"
 route53_secret: "{{ encrypted_route53_secret }}"
-alaveteli_time_zone: "Australia/Sydney"
+alaveteli_time_zone: "Europe/Bucharest"
