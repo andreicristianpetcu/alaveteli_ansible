@@ -39,5 +39,5 @@
   apt: pkg=tzdata state=present
 
 - name: Set timezone in /etc/timezone
-  copy: content="Australia/Sydney\n" dest=/etc/timezone
+  copy: content="{{ alaveteli_time_zone }}\n" dest=/etc/timezone
   notify: Update timezone

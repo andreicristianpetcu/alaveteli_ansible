@@ -23,7 +23,7 @@ ISO_COUNTRY_CODE: AU
 
 # This is the timezone that times and dates are displayed in
 # If not set defaults to UTC.
-TIME_ZONE: Australia/Sydney
+TIME_ZONE: {{ alaveteli_time_zone }}
 
 # These feeds are displayed accordingly on the Alaveteli "blog" page:
 BLOG_FEED: 'https://www.openaustraliafoundation.org.au/category/projects/righttoknow-org-au/feed/'
