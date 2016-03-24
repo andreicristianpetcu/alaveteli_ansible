@@ -41,4 +41,4 @@ inet_interfaces = all
 inet_protocols = all
 transport_maps = regexp:/etc/postfix/transports
 local_recipient_maps = proxy:unix:passwd.byname regexp:/etc/postfix/recipients
-recipient_bcc_maps = regexp:/etc/postfix/recipient_bcc
+#recipient_bcc_maps = regexp:/etc/postfix/recipient_bcc
