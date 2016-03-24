@@ -157,6 +157,22 @@
   notify:
     - reload postfix
 
+- name: Set the hostname
+  command: hostname {{ alaveteli_host }}
+  tags: hostname
+  notify:
+    - reload postfix
+
+- name: Point host to localhost
+  lineinfile:
+    dest: /etc/hosts
+    regexp: ".*{{ alaveteli_host }}.*"
+    line: "127.0.0.1    {{ alaveteli_host }}"
+    create: true
+  tags: hostname
+  notify:
+    - reload postfix
+
 - name: Set the alaveteli name in mailname
   lineinfile:
     dest: /etc/mailname
