@@ -61,7 +61,7 @@
 
 - name: Copy over database configuration for application
   template: src=database.yml dest=/srv/www/shared/database.yml owner=deploy group=deploy
-  notify: nginx restart
+  notify: nginx reload
   tags: nginx
 
 - name: Copy init scripts for daemons
@@ -97,7 +97,7 @@
 
 - name: Copy across the main Alaveteli config
   template: src=general.yml dest=/srv/www/shared/ owner=deploy group=deploy
-  notify: nginx restart
+  notify: nginx reload
   tags: nginx
 
 #- name: Add alaveteli crontab entry
@@ -215,7 +215,15 @@
     - "ssl_certificate_key "
   tags: [ 'letsencrypt', 'nondev', 'https' ]
   notify:
-    - restart nginx
+    - nginx reload
+
+- name: Check if general.yml exists
+  stat: path=/srv/www/current/config/general.yml
+  register: general_yml
+  tags:
+    - nginx
+    - https
+    - letsencrypt
 
 - name: Set FORCE_SSL to true
   lineinfile:
@@ -223,6 +231,7 @@
     regexp: '(.*)FORCE_SSL:(.*)'
     line: 'FORCE_SSL: true'
     state: present
+  when: general_yml.stat.exists == True
   tags: [ 'https', 'nondev' ]
   notify:
-    - restart nginx
+    - nginx reload

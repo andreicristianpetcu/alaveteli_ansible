@@ -1,12 +1,12 @@
 ---
-# handlers file for righttoknow
+# handlers file for alaveteli
 
 - name: reload postfix
   service:
     name: postfix
     state: reloaded
 
-- name: restart nginx
+- name: nginx reload
   service:
     name: nginx
-    state: restarted
+    state: reloaded
