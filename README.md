@@ -40,13 +40,46 @@ If it's already up you can re-run Ansible provisioning with:
 
 The default host is http://alaveteli.org.dev
 
-### Staging
+### Staging & Production
+Set up encrypted variables with your won
+```bash
+$rm -rf roles/alaveteli/vars/encrypted.yml
+$cp roles/alaveteli/vars/encrypted.example.yml roles/alaveteli/vars/encrypted.yml
+$ansible-vault encrypt roles/alaveteli/vars/encrypted.yml
+$ansible-vault edit roles/alaveteli/vars/encrypted.yml
+```
 
-**This is untested**
+Set up hosts
+First make your hosts file resolve your staging/testing and production domains to the IP of the servers. At first provision the Internet and your computer will not know to resolv the domain.
+
+```bash
+$cat /etc/hosts
+37.139.34.1  test.mynewalaveteli.org
+37.139.34.2  mynewalaveteli.org
+```
+
+Also you need to tell Ansible that your hosts are part of the Alaveteli group
+
+```bash
+$cat /etc/alaveteli/hosts
+[alaveteli]
+#development
+alaveteli.org.dev
+#staging
+test.mynewalaveteli.org
+#production
+mynewalaveteli.org
+```
+Now provision your test and production servers
 
 Provision a running server with:
 
+    ansible-playbook site.yml -l test.mynewalaveteli.org
     ansible-playbook site.yml -l mynewalaveteli.org
+
+If you setup your encrypted_route53_key and encrypted_route53_secret in `encrypted.yml` you will also provision the DNS settings.
+
+Please make sure you generated your own `encrypted_alaveteli_recaptcha_public_key` and `encrypted_alaveteli_recaptcha_private_key` in order to have reCAPTCHA work in `encrypted.yml`.
 
 ## Notes for deploying
 
