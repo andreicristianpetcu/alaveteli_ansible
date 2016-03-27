@@ -90,6 +90,28 @@
   notify: nginx reload
   tags: nginx
 
+- name: Create LE user
+  user:
+    name: '{{ letsencrypt_user }}'
+    home: '{{ acme_tiny_data_directory }}'
+    system: yes
+
+- name: Create LE group
+  group:
+    name: '{{ letsencrypt_group }}'
+    system: yes
+
+- name: Ensure letsencrypt challange dir exists
+  file:
+    path: "{{ acme_tiny_challenges_directory }}"
+    state: directory
+    owner: "{{ letsencrypt_user }}"
+    group: "{{ letsencrypt_group }}"
+    mode: 0755
+  tags:
+    - nginx
+    - https
+
 - name: Copy nginx config for the app
   template: src=default dest=/etc/nginx/sites-available/ owner=root group=root mode=644
   tags: nginx
