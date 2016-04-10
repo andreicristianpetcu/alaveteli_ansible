@@ -276,3 +276,12 @@
   tags: [ 'https', 'nondev' ]
   notify:
     - nginx reload
+
+- name: Set default environment to production
+  lineinfile:
+    dest: /srv/www/current/config/rails_env.rb
+    line: "ENV['RAILS_ENV'] = 'production'"
+    create: true
+  tags: nginx
+  notify:
+    - nginx reload
