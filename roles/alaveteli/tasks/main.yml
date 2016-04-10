@@ -108,7 +108,6 @@
     owner: "{{ letsencrypt_user }}"
     group: "{{ letsencrypt_group }}"
     mode: 0755
-  notify: nginx reload
   tags:
     - nginx
     - https
@@ -116,7 +115,7 @@
 - name: Copy nginx config for the app
   template: src=default dest=/etc/nginx/sites-available/ owner=root group=root mode=644
   tags: nginx
-  notify: nginx restart
+  notify: nginx reload
 
 - name: Copy across the main Alaveteli config
   template: src=general.yml dest=/srv/www/shared/ owner=deploy group=deploy
