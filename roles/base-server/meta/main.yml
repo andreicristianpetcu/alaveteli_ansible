@@ -1,7 +1,6 @@
 ---
 dependencies:
   - role: deploy-user
-    github_users: ['andreicristianpetcu']
   - role: xcezx.aliases
     aliases:
       - {user: postmaster, alias: root}
