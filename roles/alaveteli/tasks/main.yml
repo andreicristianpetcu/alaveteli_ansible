@@ -245,34 +245,25 @@
   register: letsencrypt_rootca  
   tags: certificatechain
   delegate_to: localhost
+  changed_when: false
 
 - name: Load lets encrypt Intermediary CA
   shell: cat roles/alaveteli/files/certificates/lets-encrypt-x3-cross-signed.pem
   register: letsencrypt_intermediary
   tags: certificatechain
   delegate_to: localhost
+  changed_when: false
 
 - name: Load lets encrypt Intermediary CA
   shell: "cat /etc/ssl/{{ alaveteli_host }}.crt"
   register: letsencrypt_certificate
   tags: certificatechain
-  
-- name: Print root CA 1
-  debug: var=letsencrypt_rootca.stdout
-  tags: certificatechain
-
-- name: Print root CA 2
-  debug: var=letsencrypt_intermediary.stdout
-  tags: certificatechain
-
-- name: Print root CA 3
-  debug: var=letsencrypt_certificate.stdout
-  tags: certificatechain
 
 - name: Copy over database configuration for application
-  template: src=certificatechain.pem dest="/etc/ssl/{{ alaveteli_host }}2.pem" owner=root group=root mode=0644
+  template: src=certificatechain.pem dest="/etc/ssl/{{ alaveteli_host }}.pem" owner=root group=root mode=0644
   notify: nginx reload
-  tags: certificatechain
+  tags: [ 'certificatechain', 'nginx' ]
+  changed_when: false
 
 - name: Enable TLS in Nginx configs
   lineinfile:
