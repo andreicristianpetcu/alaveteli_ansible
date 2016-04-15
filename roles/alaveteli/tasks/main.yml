@@ -265,6 +265,12 @@
   tags: [ 'certificatechain', 'nondev', 'nginx' ]
   changed_when: false
 
+- name: Generate strong DH params
+  shell: "openssl dhparam -out /etc/ssl/private/{{ alaveteli_host }}_dhparams.pem 2048"
+  args:
+    creates: "/etc/ssl/private/{{ alaveteli_host }}_dhparams.pem"
+  tags: [ 'dhparams' , 'nondev' ]
+
 - name: Enable TLS in Nginx configs
   lineinfile:
     dest: /etc/nginx/sites-enabled/default
@@ -280,6 +286,8 @@
     - "ssl_prefer_server_ciphers "
     - "ssl_session_cache "
     - "ssl_ciphers "
+    - "ssl_dhparam "
+    - "add_header Strict-Transport-Security "
   tags: [ 'letsencrypt', 'nondev', 'https', 'nginx']
   notify: nginx reload
 
