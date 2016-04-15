@@ -28,9 +28,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provider "virtualbox" do |v|
-    v.memory = 1024
+    v.memory = 4096
     # Uncomment this and crank up the memory for a faster build
-    v.cpus = 2
+    v.cpus = 4
   end
 
   hosts = {
