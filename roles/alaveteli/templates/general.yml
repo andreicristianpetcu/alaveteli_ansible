@@ -33,7 +33,7 @@ TWITTER_USERNAME: ''
 TWITTER_WIDGET_ID: ''
 
 # Locales we wish to support in this app, space-delimited
-AVAILABLE_LOCALES: 'ro_RO en'
+AVAILABLE_LOCALES: 'ro_RO'
 DEFAULT_LOCALE: 'ro_RO'
 USE_DEFAULT_BROWSER_LANGUAGE: true
 
@@ -87,7 +87,7 @@ ADMIN_PASSWORD: '{{ alavateli_admin_password }}'
 SKIP_ADMIN_AUTH: false
 
 # Email "from" details
-CONTACT_EMAIL: 'andreip@posteo.net'
+CONTACT_EMAIL: '{{ alaveteli_admin_email }}'
 CONTACT_NAME: 'Right to Know'
 
 # Email "from" details for track messages

@@ -18,3 +18,5 @@ alaveteli_recaptcha_private_key: '{{ encrypted_alaveteli_recaptcha_private_key }
 route53_key: "{{ encrypted_route53_key }}"
 route53_secret: "{{ encrypted_route53_secret }}"
 alaveteli_time_zone: "Europe/Bucharest"
+alaveteli_admin_email: 'andreip@posteo.net'
+github_users: ['andreicristianpetcu']

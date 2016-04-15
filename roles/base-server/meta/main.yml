@@ -1,14 +1,13 @@
 ---
 dependencies:
   - role: deploy-user
-    github_users: ['andreicristianpetcu']
   - role: xcezx.aliases
     aliases:
       - {user: postmaster, alias: root}
       - {user: deploy, alias: root}
       - {user: root, alias: "admin@{{ alaveteli_host }}"}
-      - {user: admin, alias: andreip@posteo.net}
-      - {user: team, alias: andreip@posteo.net}
+      - {user: admin, alias: "{{ alaveteli_admin_email }}"}
+      - {user: team, alias: "{{ alaveteli_admin_email }}"}
       - {user: user-support, alias: team}
       - {user: do-not-reply-to-this-address, alias: /dev/null}
     tags: aliases
