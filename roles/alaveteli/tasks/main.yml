@@ -243,26 +243,26 @@
 - name: Load lets encrypt ROOT CA 
   shell: cat roles/alaveteli/files/certificates/DSTRootCAX3.crt
   register: letsencrypt_rootca  
-  tags: certificatechain
+  tags: [ 'certificatechain' , 'nondev' ]
   delegate_to: localhost
   changed_when: false
 
 - name: Load lets encrypt Intermediary CA
   shell: cat roles/alaveteli/files/certificates/lets-encrypt-x3-cross-signed.pem
   register: letsencrypt_intermediary
-  tags: certificatechain
+  tags: [ 'certificatechain' , 'nondev' ]
   delegate_to: localhost
   changed_when: false
 
 - name: Load lets encrypt Intermediary CA
   shell: "cat /etc/ssl/{{ alaveteli_host }}.crt"
   register: letsencrypt_certificate
-  tags: certificatechain
+  tags: [ 'certificatechain' , 'nondev' ]
 
 - name: Copy over database configuration for application
   template: src=certificatechain.pem dest="/etc/ssl/{{ alaveteli_host }}.pem" owner=root group=root mode=0644
   notify: nginx reload
-  tags: [ 'certificatechain', 'nginx' ]
+  tags: [ 'certificatechain', 'nondev', 'nginx' ]
   changed_when: false
 
 - name: Enable TLS in Nginx configs
@@ -280,7 +280,7 @@
     - "ssl_prefer_server_ciphers "
     - "ssl_session_cache "
     - "ssl_ciphers "
-  tags: [ 'letsencrypt', 'nondev', 'https' ]
+  tags: [ 'letsencrypt', 'nondev', 'https', 'nginx']
   notify: nginx reload
 
 - name: Check if general.yml exists
@@ -302,11 +302,17 @@
   notify:
     - nginx reload
 
+- name: Check rails env file
+  stat: path=/srv/www/current/config/rails_env.rb
+  register: rails_env_file
+  tags: nginx
+
 - name: Set default environment to production
   lineinfile:
     dest: /srv/www/current/config/rails_env.rb
     line: "ENV['RAILS_ENV'] = 'production'"
     create: true
+  when: rails_env_file.stat.exists == true
   tags: nginx
   notify:
     - nginx reload
