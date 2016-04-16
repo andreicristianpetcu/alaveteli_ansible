@@ -287,7 +287,6 @@
     - "ssl_session_cache "
     - "ssl_ciphers "
     - "ssl_dhparam "
-    - "add_header Strict-Transport-Security "
   tags: [ 'letsencrypt', 'nondev', 'https', 'nginx']
   notify: nginx reload
 
