@@ -88,11 +88,11 @@ SKIP_ADMIN_AUTH: false
 
 # Email "from" details
 CONTACT_EMAIL: '{{ alaveteli_admin_email }}'
-CONTACT_NAME: 'Right to Know'
+CONTACT_NAME: 'Alaveteli'
 
 # Email "from" details for track messages
 TRACK_SENDER_EMAIL: 'contact@{{ alaveteli_host }}'
-TRACK_SENDER_NAME: 'Right to Know'
+TRACK_SENDER_NAME: 'Alaveteli'
 
 # Where the raw incoming email data gets stored; make sure you back
 # this up!
