@@ -4,6 +4,7 @@
 - hosts: alaveteli
   vars_files:
     - roles/alaveteli/vars/encrypted.yml
+    - roles/alaveteli/vars/main.yml
     - roles/andreaswolf.letsencrypt/defaults/main.yml
 
   vars:
