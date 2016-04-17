@@ -1,0 +1,20 @@
+# Playbook for restoring your remote instance
+---
+
+- hosts: alaveteli
+  vars_files:
+    - roles/alaveteli/vars/encrypted.yml
+    - roles/andreaswolf.letsencrypt/defaults/main.yml
+
+  vars:
+    backup_dir: "/tmp/alaveteli"
+  tasks:
+    - name: Push files to remote to local
+      synchronize: src={{ backup_dir }}/files dest=/srv/www/current/files/ mode=push
+
+    - name: Push database backup
+      synchronize: dest=/tmp/alaveteli.sql src={{ backup_dir }}/alaveteli.sql mode=push
+
+    - name: Backup database
+      command: "su - postgres -c 'psql -U alaveteli -d alaveteli -f /tmp/alaveteli.sql'"
+      notify: nginx reload
