@@ -31,6 +31,9 @@
     - name: Backup database
       command: "su - postgres -c 'psql -d alaveteli -f /tmp/alaveteli.sql'"
 
+    - name: Migrate the database to the latest schema
+      command: "su - deploy -c 'cd /srv/www/current && RAILS_ENV=production bundle exec rake db:migrate'"
+
     - name: Rebuild Xapian indes
       command: "su - deploy -c 'RAILS_ENV=production /srv/www/current/script/rebuild-xapian-index'"
 
