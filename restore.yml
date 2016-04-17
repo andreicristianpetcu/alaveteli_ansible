@@ -26,11 +26,7 @@
       command: "su - postgres -c 'dropdb alaveteli'"
       ignore_errors: true
 
-    - name: Create database
-      postgresql_db: name=alaveteli
-
-    - name: Create posgresql role
-      postgresql_user: db=alaveteli name=alaveteli password={{ db_password }}
+    - include: roles/alaveteli/tasks/create_postgresqldb.yml
 
     - name: Backup database
       command: "su - postgres -c 'psql -d alaveteli -f /tmp/alaveteli.sql'"
