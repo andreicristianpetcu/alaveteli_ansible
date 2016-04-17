@@ -4,6 +4,7 @@
 - hosts: alaveteli
   vars_files:
     - roles/alaveteli/vars/encrypted.yml
+    - roles/alaveteli/vars/main.yml
     - roles/andreaswolf.letsencrypt/defaults/main.yml
 
   vars:
@@ -15,6 +16,24 @@
     - name: Push database backup
       synchronize: dest=/tmp/alaveteli.sql src={{ backup_dir }}/alaveteli.sql mode=push
 
+    - name: Stop nginx
+      service: name=nginx state=stopped
+
+    - name: Restart postgresql to drop all connections
+      service: name=postgresql state=restarted
+
+    - name: Drop old databse
+      command: "su - postgres -c 'dropdb alaveteli'"
+      ignore_errors: true
+
+    - name: Create database
+      postgresql_db: name=alaveteli
+
+    - name: Create posgresql role
+      postgresql_user: db=alaveteli name=alaveteli password={{ db_password }}
+
     - name: Backup database
-      command: "su - postgres -c 'psql -U alaveteli -d alaveteli -f /tmp/alaveteli.sql'"
-      notify: nginx reload
+      command: "su - postgres -c 'psql -d alaveteli -f /tmp/alaveteli.sql'"
+
+    - name: Start nginx
+      service: name=nginx state=started
