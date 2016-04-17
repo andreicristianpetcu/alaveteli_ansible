@@ -5,6 +5,13 @@
   vars_files:
     - roles/alaveteli/vars/encrypted.yml
     - roles/andreaswolf.letsencrypt/defaults/main.yml
+
+  vars:
+    backup_dir: "/tmp/alaveteli"
   tasks:
-    - name: Sync install files from remote to local
-      synchronize: src=/srv/www/current/files/ dest=/tmp/files mode=pull
+    - name: Create the backup dir
+      file: path={{ backup_dir }} state=directory mode=0755
+      delegate_to: localhost
+
+    - name: Pull files from remote to local
+      synchronize: src=/srv/www/current/files/ dest={{ backup_dir }}/files mode=pull
