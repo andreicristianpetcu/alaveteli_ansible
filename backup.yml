@@ -18,7 +18,10 @@
       synchronize: src=/srv/www/current/files/ dest={{ backup_dir }}/files mode=pull
 
     - name: Backup database
-      command: "su - postgres -c 'pg_dump alaveteli > /tmp/alaveteli.sql'"
+      shell: "sudo su - postgres -c 'pg_dump {{ alaveteli_database }} > /tmp/alaveteli.sql'"
+      become_user: root
+      args:
+        creates: /tmp/alaveteli.sql
 
     - name: Pull database backup
       synchronize: src=/tmp/alaveteli.sql dest={{ backup_dir }}/alaveteli.sql mode=pull
