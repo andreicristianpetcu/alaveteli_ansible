@@ -31,5 +31,8 @@
     - name: Backup database
       command: "su - postgres -c 'psql -d alaveteli -f /tmp/alaveteli.sql'"
 
+    - name: Rebuild Xapian indes
+      command: "su - deploy -c 'RAILS_ENV=production /srv/www/current/script/rebuild-xapian-index'"
+
     - name: Start nginx
       service: name=nginx state=started
