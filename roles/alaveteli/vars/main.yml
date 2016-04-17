@@ -8,6 +8,7 @@ letsencrypt_certs:
     host: "{{ alaveteli_host }}"
 letsencrypt_user: 'letsencrypt'
 letsencrypt_group: 'deploy'
+alaveteli_database: 'alaveteli'
 db_password: "{{ encrypted_db_password }}"
 alavateli_incoming_email_secret: '{{ encrypted_alavateli_incoming_email_secret }}'
 alavateli_admin_password: '{{ encrypted_alavateli_admin_password }}'

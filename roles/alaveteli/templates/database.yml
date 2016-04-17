@@ -1,5 +1,5 @@
 production:
   adapter: postgresql
-  database: alaveteli
+  database: {{ alaveteli_database }}
   username: alaveteli
   password: {{ db_password }}
