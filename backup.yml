@@ -1,0 +1,10 @@
+# Playbook for development VMs on your local box
+---
+
+- hosts: alaveteli
+  vars_files:
+    - roles/alaveteli/vars/encrypted.yml
+    - roles/andreaswolf.letsencrypt/defaults/main.yml
+  tasks:
+    - name: Sync install files from remote to local
+      synchronize: src=/srv/www/current/files/ dest=/tmp/files mode=pull
