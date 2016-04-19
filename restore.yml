@@ -14,8 +14,11 @@
       synchronize: src={{ backup_dir }}/files dest=/srv/www/current/ mode=push
 
     - name: Push cache files from local to remote
-      synchronize: src={{ backup_dir }}/cache dest=/srv/www/current/ mode=push
-      tags: backup_cache
+      synchronize: src={{ backup_dir }}/cache/{{ item }} dest=/srv/www/current/cache/{{ item }} mode=push
+      with_items:
+        - attachments_development
+        - attachments_production
+      tags: cache_files
 
     - name: Push database backup
       synchronize: dest=/tmp/alaveteli.sql src={{ backup_dir }}/alaveteli.sql mode=push

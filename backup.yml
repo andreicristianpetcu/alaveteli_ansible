@@ -22,7 +22,7 @@
       with_items:
         - attachments_development
         - attachments_production
-      tags: backup_cache
+      tags: cache_files
 
     - name: Backup database
       shell: "sudo su - postgres -c 'pg_dump {{ alaveteli_database }} > /tmp/alaveteli.sql'"
