@@ -131,7 +131,7 @@
   notify: nginx reload
   tags: nginx
 
-- include: config_cron_jobs.yml
+#- include: config_cron_jobs.yml
 
 - name: Add deploy user to adm group so it can read mail logs
   user:
