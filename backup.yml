@@ -14,8 +14,15 @@
       file: path={{ backup_dir }} state=directory mode=0755
       delegate_to: localhost
 
-    - name: Pull files from remote to local
+    - name: Pull email files from remote to local
       synchronize: src=/srv/www/current/files/ dest={{ backup_dir }}/files mode=pull
+
+    - name: Pull cache files from remote to local
+      synchronize: src=/srv/www/current/cache/{{ item }} dest={{ backup_dir }}/cache/{{ item }} mode=pull
+      with_items:
+        - attachments_development
+        - attachments_production
+      tags: backup_cache
 
     - name: Backup database
       shell: "sudo su - postgres -c 'pg_dump {{ alaveteli_database }} > /tmp/alaveteli.sql'"

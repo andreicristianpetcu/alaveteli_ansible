@@ -10,8 +10,12 @@
   vars:
     backup_dir: "/tmp/alaveteli"
   tasks:
-    - name: Push files to remote to local
-      synchronize: src={{ backup_dir }}/files dest=/srv/www/current/files/ mode=push
+    - name: Push email files from local to remote
+      synchronize: src={{ backup_dir }}/files dest=/srv/www/current/ mode=push
+
+    - name: Push cache files from local to remote
+      synchronize: src={{ backup_dir }}/cache dest=/srv/www/current/ mode=push
+      tags: backup_cache
 
     - name: Push database backup
       synchronize: dest=/tmp/alaveteli.sql src={{ backup_dir }}/alaveteli.sql mode=push
@@ -38,8 +42,10 @@
       command: "su - deploy -c 'RAILS_ENV=production /srv/www/current/script/rebuild-xapian-index models={{ item }}'"
       with_items:
         #- 'PublicBody'
-        - 'User'
-        #- 'InfoRequestEvent'
+        #- 'User'
+        - 'InfoRequestEvent'
+      tags: xapian
 
     - name: Start nginx
       service: name=nginx state=started
+      tags: nginx
