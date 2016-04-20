@@ -13,5 +13,15 @@
     - name: Restart postgresql to drop all connections
       service: name=postgresql state=restarted
 
+    - name: Drop pesty users index
+      command: "su - postgres -c \"psql -d alaveteli -U alaveteli -c \\\"drop index users_email_index;\\\"\""
+
     - name: Update all public bodies to the admin email
-      command: "su - postgres -c \"psql -d alaveteli -U alaveteli -c \\\"update public_bodies set request_email='{{ alaveteli_admin_email }}';\\\"\""
+      command: "su - postgres -c \"psql -d alaveteli -U alaveteli -c \\\"update {{ item.table }} set {{ item.field }}='{{ alaveteli_admin_email }}';\\\"\""
+      with_items:
+        -
+          table: users
+          field: email
+        -
+          table: public_bodies
+          field: request_email
