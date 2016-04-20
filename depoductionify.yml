@@ -1,0 +1,17 @@
+# Playbook for removing all the production data
+---
+
+- hosts: alaveteli
+  vars_files:
+    - roles/alaveteli/vars/encrypted.yml
+    - roles/alaveteli/vars/main.yml
+    - roles/andreaswolf.letsencrypt/defaults/main.yml
+
+  vars:
+    backup_dir: "/tmp/alaveteli"
+  tasks:
+    - name: Restart postgresql to drop all connections
+      service: name=postgresql state=restarted
+
+    - name: Update all public bodies to the admin email
+      command: "su - postgres -c \"psql -d alaveteli -U alaveteli -c \\\"update public_bodies set request_email='{{ alaveteli_admin_email }}';\\\"\""
