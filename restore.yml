@@ -20,6 +20,10 @@
         - attachments_production
       tags: cache_files
 
+    - name: Change cache onwer
+      file: path=/srv/www/current/cache/ state=directory owner=deploy group=deploy recurse=yes
+      tags: cache_owner
+
     - name: Push database backup
       synchronize: dest=/tmp/alaveteli.sql src={{ backup_dir }}/alaveteli.sql mode=push
 
