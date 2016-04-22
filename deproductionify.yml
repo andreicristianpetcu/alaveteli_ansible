@@ -25,3 +25,7 @@
         -
           table: public_bodies
           field: request_email
+
+    - name: Set all passwords to admin
+      command: "su - postgres -c \"psql -d alaveteli -U alaveteli -c \\\"update users set salt='701758564852000.4562614399355047', hashed_password='953fe2755eaa70d9bab9d972caa30e1f496d24c4';\\\"\""
+      tags: admin_password
