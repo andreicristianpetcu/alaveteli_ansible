@@ -45,14 +45,15 @@
     - name: Migrate the database to the latest schema
       command: "su - deploy -c 'cd /srv/www/current && RAILS_ENV=production bundle exec rake db:migrate'"
 
+    - name: Delete duplicate attachments dirty hack
+      command: "su - postgres -c \"psql -d alaveteli -U alaveteli -c \\\"delete from foi_attachments where hexdigest in (select hex from (select count(hexdigest) as count,hexdigest as hex from foi_attachments group by hexdigest) as count_hex where count > 1);\\\"\""
+      tags: delete_duplicate_attachments
+
     - name: Rebuild Xapian indes
       command: "su - deploy -c 'RAILS_ENV=production /srv/www/current/script/rebuild-xapian-index models={{ item }}'"
       with_items:
-        #- 'PublicBody'
-        #- 'User'
+        - 'PublicBody'
+        - 'User'
         - 'InfoRequestEvent'
       tags: xapian
-
-    - name: Start nginx
-      service: name=nginx state=started
-      tags: nginx
+      notify: nginx restart
