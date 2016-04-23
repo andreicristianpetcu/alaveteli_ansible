@@ -39,6 +39,7 @@
     - language-pack-ro
     - unzip
     - poppler-utils
+    - elinks
   tags:
     - apt-get
     - packages
