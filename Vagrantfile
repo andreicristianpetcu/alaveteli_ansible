@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.skip_tags = "nondev"
 
     ansible.groups = {
-      "alaveteli" => ["#{alaveteli_host}"] 
+      "alaveteli" => ["#{alaveteli_host}"]
     }
   end
 
