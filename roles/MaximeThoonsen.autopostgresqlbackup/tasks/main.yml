@@ -34,16 +34,16 @@
   tags:
     - autopostgresqlbackup
 
-- name: add autopostgresqlbackup cron job
-  sudo: yes
-  cron:
-    name: "autopostgresqlbackup"
-    minute: "{{ autopostgresqlbackup_cron.minute }}"
-    hour: "{{ autopostgresqlbackup_cron.hour }}"
-    day: "{{ autopostgresqlbackup_cron.day }}"
-    month: "{{ autopostgresqlbackup_cron.month }}"
-    weekday: "{{ autopostgresqlbackup_cron.weekday }}"
-    user: root
-    job: "/usr/sbin/autopostgresqlbackup"
-  tags:
-    - autopostgresqlbackup
+#- name: add autopostgresqlbackup cron job
+#  sudo: yes
+#  cron:
+#    name: "autopostgresqlbackup"
+#    minute: "{{ autopostgresqlbackup_cron.minute }}"
+#    hour: "{{ autopostgresqlbackup_cron.hour }}"
+#    day: "{{ autopostgresqlbackup_cron.day }}"
+#    month: "{{ autopostgresqlbackup_cron.month }}"
+#    weekday: "{{ autopostgresqlbackup_cron.weekday }}"
+#    user: root
+#    job: "/usr/sbin/autopostgresqlbackup"
+#  tags:
+#    - autopostgresqlbackup
