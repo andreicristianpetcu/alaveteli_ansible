@@ -39,6 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   hosts.each do |hostname, ip|
     config.vm.define hostname do |host|
+      host.vm.network "forwarded_port", guest: 5432, host: 5432, auto_correct: true
       host.vm.network :private_network, ip: ip
       host.vm.hostname = hostname
     end
