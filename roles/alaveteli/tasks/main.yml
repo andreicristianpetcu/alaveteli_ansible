@@ -190,7 +190,7 @@
   notify:
     - reload postfix
 
-- Name: Flush handlers for LE and Nginx
+- name: Flush handlers for LE and Nginx
   meta: flush_handlers
 
 - name: "Include Andreaswolf's letsencrypt role tasks"
