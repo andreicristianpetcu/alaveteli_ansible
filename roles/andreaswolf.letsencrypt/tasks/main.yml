@@ -102,7 +102,7 @@
 
 - name: generate certificate renewal script
   template:
-    src: renew-certs.py
+    src: roles/andreaswolf.letsencrypt/templates/renew-certs.py
     dest: "{{ acme_tiny_data_directory }}/renew-certs.py"
     mode: 0700
     owner: '{{ letsencrypt_user }}'
