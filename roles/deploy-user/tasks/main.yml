@@ -9,6 +9,7 @@
   delegate_to: localhost
   sudo: false
   with_items: github_users
+  tags: authorized_keys
 
 - name: Create authorized_keys for deploy from the file that just downloaded
   authorized_key: user=deploy key="{{ lookup('file', item) }}"
