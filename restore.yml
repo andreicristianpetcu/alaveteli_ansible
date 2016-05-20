@@ -13,17 +13,6 @@
     - name: Push email files from local to remote
       synchronize: src={{ backup_dir }}/files dest=/srv/www/current/ mode=push
 
-    - name: Push cache files from local to remote
-      synchronize: src={{ backup_dir }}/cache/{{ item }} dest=/srv/www/current/cache/{{ item }} mode=push
-      with_items:
-        - attachments_development
-        - attachments_production
-      tags: cache_files
-
-    - name: Change cache onwer
-      file: path=/srv/www/current/cache/ state=directory owner=deploy group=deploy recurse=yes
-      tags: cache_owner
-
     - name: Push database backup
       synchronize: dest=/tmp/alaveteli.sql src={{ backup_dir }}/alaveteli.sql mode=push
 
@@ -46,18 +35,19 @@
       command: "su - deploy -c 'cd /srv/www/current && RAILS_ENV=production bundle exec rake db:migrate'"
       notify: nginx restart
 
-    # - name: Delete duplicate attachments dirty hack
-    #   command: "su - postgres -c \"psql -d alaveteli -U alaveteli -c \\\"delete from foi_attachments where hexdigest in (select hex from (select count(hexdigest) as count,hexdigest as hex from foi_attachments group by hexdigest) as count_hex where count > 1);\\\"\""
-    #   tags: delete_duplicate_attachments
+    - name: Parse raw emails
+      command: "su - deploy -c 'cd /srv/www/current && echo \"IncomingMessage.all.each { |incoming_message| incoming_message.parse_raw_email!(true) }\" | RAILS_ENV=production bundle exec rails c'"
+      tags: xapian
+      notify: nginx restart
 
-    #- name: Rebuild Xapian indes
-    #  command: "su - deploy -c 'RAILS_ENV=production /srv/www/current/script/rebuild-xapian-index models={{ item }}'"
-    #  with_items:
-    #    # - 'PublicBody'
-    #    # - 'User'
-    #    - 'InfoRequestEvent'
-    #  tags: xapian
-    #  notify: nginx restart
+    - name: Rebuild Xapian indes
+      command: "su - deploy -c 'RAILS_ENV=production /srv/www/current/script/rebuild-xapian-index models={{ item }}'"
+      with_items:
+        # - 'PublicBody'
+        # - 'User'
+        - 'InfoRequestEvent'
+      tags: xapian
+      notify: nginx restart
 
     - name: Restart nginx
       service: name=nginx state=restarted
