@@ -43,8 +43,8 @@
     - name: Rebuild Xapian indes
       command: "su - deploy -c 'RAILS_ENV=production /srv/www/current/script/rebuild-xapian-index models={{ item }}'"
       with_items:
-        # - 'PublicBody'
-        # - 'User'
+        - 'PublicBody'
+        - 'User'
         - 'InfoRequestEvent'
       tags: xapian
       notify: nginx restart
