@@ -36,18 +36,24 @@
       notify: nginx restart
 
     - name: Parse raw emails
-      command: "su - deploy -c 'cd /srv/www/current && echo \"IncomingMessage.all.each { |incoming_message| incoming_message.parse_raw_email!(true) }\" | RAILS_ENV=production bundle exec rails c'"
-      tags: xapian
+      shell: "echo \"IncomingMessage.all.each { |incoming_message| incoming_message.parse_raw_email!(true) }\" | RAILS_ENV=production bundle exec rails c"
+      args:
+        chdir: "/srv/www/current"
+      tags: parse_raw_emails
       notify: nginx restart
+      become: yes
+      become_user: deploy
 
     - name: Rebuild Xapian indes
-      command: "su - deploy -c 'RAILS_ENV=production /srv/www/current/script/rebuild-xapian-index models={{ item }}'"
-      with_items:
-        - 'PublicBody'
-        - 'User'
-        - 'InfoRequestEvent'
+      shell: 'RAILS_ENV=production bundle exec rake xapian:rebuild_index models=\"PublicBody User InfoRequestEvent\"'
+      args:
+        chdir: "/srv/www/current"
+        executable: /bin/bash
       tags: xapian
       notify: nginx restart
+      become_user: deploy
+      become: yes
+      become_method: sudo
 
     - name: Restart nginx
       service: name=nginx state=restarted
