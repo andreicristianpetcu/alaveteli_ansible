@@ -29,6 +29,13 @@
     port: smtp
     proto: tcp
 
+- name: Allow Varnish traffic
+  ufw:
+    rule: allow
+    port: 6081
+    proto: tcp
+  tags: varnish
+
 - name: Ensure git is installed
   apt:
     pkg: git

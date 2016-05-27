@@ -297,7 +297,7 @@
     src: "{{ item }}"
     mode: 0644
   with_items:
-    #- varnish/default.vcl
+    - varnish/default.vcl
     - varnish/varnish-alaveteli.vcl
   tags: varnish
   notify:
