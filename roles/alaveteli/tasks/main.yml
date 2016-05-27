@@ -281,3 +281,24 @@
   tags: nginx
   notify:
     - nginx reload
+
+- name: Install varnish
+  apt: name={{ item }} state=present
+  with_items:
+    - varnish
+  tags:
+    - apt-get
+    - packages
+    - varnish
+
+- name: Copy varnish configs
+  template:
+    dest: /etc/{{ item }}
+    src: "{{ item }}"
+    mode: 0644
+  with_items:
+    #- varnish/default.vcl
+    - varnish/varnish-alaveteli.vcl
+  tags: varnish
+  notify:
+    - reload varnish

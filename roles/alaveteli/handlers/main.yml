@@ -11,6 +11,11 @@
     name: nginx
     state: restarted
 
+- name: varnish reload
+  service:
+    name: varnish
+    state: reloaded
+
 - name: nginx reload
   service:
     name: nginx
