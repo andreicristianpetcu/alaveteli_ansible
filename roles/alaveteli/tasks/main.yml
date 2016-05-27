@@ -256,16 +256,16 @@
     - https
     - letsencrypt
 
-- name: Set FORCE_SSL to true
-  lineinfile:
-    dest: /srv/www/current/config/general.yml
-    regexp: '(.*)FORCE_SSL:(.*)'
-    line: 'FORCE_SSL: true'
-    state: present
-  when: general_yml.stat.exists == True
-  tags: [ 'https', 'nondev' ]
-  notify:
-    - nginx reload
+#- name: Set FORCE_SSL to true
+#  lineinfile:
+#    dest: /srv/www/current/config/general.yml
+#    regexp: '(.*)FORCE_SSL:(.*)'
+#    line: 'FORCE_SSL: true'
+#    state: present
+#  when: general_yml.stat.exists == True
+#  tags: [ 'https', 'nondev' ]
+#  notify:
+#    - nginx reload
 
 - name: Check rails env file
   stat: path=/srv/www/current/config/rails_env.rb
