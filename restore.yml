@@ -35,25 +35,35 @@
       command: "su - deploy -c 'cd /srv/www/current && RAILS_ENV=production bundle exec rake db:migrate'"
       notify: nginx restart
 
-    - name: Parse raw emails
-      shell: "echo \"IncomingMessage.all.each { |incoming_message| incoming_message.parse_raw_email!(true) }\" | RAILS_ENV=production bundle exec rails c"
-      args:
-        chdir: "/srv/www/current"
-      tags: parse_raw_emails
-      notify: nginx restart
-      become: yes
-      become_user: deploy
+    #- name: Put rbenv in bashrc
+    #  lineinfile:
+    #    dest: /etc/bash.bashrc
+    #    regexp: ".*rbenv.sh.*"
+    #    line: "source /etc/profile.d/rbenv.sh"
+    #    create: true
+    #  tags: parse_raw_emails
 
-    - name: Rebuild Xapian indes
-      shell: 'RAILS_ENV=production bundle exec rake xapian:rebuild_index models=\"PublicBody User InfoRequestEvent\"'
-      args:
-        chdir: "/srv/www/current"
-        executable: /bin/bash
-      tags: xapian
-      notify: nginx restart
-      become_user: deploy
-      become: yes
-      become_method: sudo
+    #- name: Parse raw emails
+    #  shell: 'source /etc/profile.d/rbenv.sh && echo "IncomingMessage.all.each { |incoming_message| incoming_message.parse_raw_email!(true) }" | RAILS_ENV=production bundle exec rails c'
+    #  #shell: "echo $PATH"
+    #  args:
+    #    chdir: "/srv/www/current"
+    #    executable: /bin/bash
+    #  tags: parse_raw_emails
+    #  notify: nginx restart
+    #  become: yes
+    #  become_user: deploy
+
+    #- name: Rebuild Xapian indes
+    #  shell: 'source /etc/profile.d/rbenv.sh && RAILS_ENV=production bundle exec rake xapian:rebuild_index models="InfoRequestEvent"'
+    #  args:
+    #    chdir: "/srv/www/current"
+    #    executable: /bin/bash
+    #  tags: xapian
+    #  notify: nginx restart
+    #  become_user: deploy
+    #  become: yes
 
     - name: Restart nginx
       service: name=nginx state=restarted
+      tags: nginx
