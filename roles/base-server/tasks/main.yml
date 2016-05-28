@@ -36,6 +36,13 @@
     proto: tcp
   tags: varnish
 
+- name: Allow Nginx varnish proxy for HTTPS
+  ufw:
+    rule: allow
+    port: 8443
+    proto: tcp
+  tags: varnish
+
 - name: Ensure git is installed
   apt:
     pkg: git

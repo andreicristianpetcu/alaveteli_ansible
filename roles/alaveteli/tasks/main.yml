@@ -302,3 +302,21 @@
   tags: varnish
   notify:
     - reload varnish
+
+- name: Copy nginx proxy configs
+  template:
+    dest: /etc/nginx/proxy.conf
+    src: "proxy.conf"
+    mode: 0644
+  tags: varnish
+  notify:
+    - reload nginx
+
+- name: Copy nginx Varnish proxy site
+  template:
+    dest: /etc/nginx/sites-enabled
+    src: "https_to_varnish_proxy"
+    mode: 0644
+  tags: varnish
+  notify:
+    - reload nginx
