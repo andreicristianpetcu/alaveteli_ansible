@@ -123,7 +123,11 @@
     - https
 
 - name: Copy nginx config for the app
-  template: src=default dest=/etc/nginx/sites-available/ owner=root group=root mode=644
+  template: src={{ item }} dest="/etc/nginx/sites-available/{{ item }}" owner=root group=root mode=644
+  with_items:
+    - alaveteli_http
+    - alaveteli_https
+    - https_to_varnish_proxy
   tags: nginx
   notify: nginx reload
 
@@ -231,7 +235,7 @@
 
 - name: Enable TLS in Nginx configs
   lineinfile:
-    dest: /etc/nginx/sites-enabled/default
+    dest: /etc/nginx/sites-enabled/alaveteli_https
     regexp: '(.*)#{{ item }}(.*)'
     line: '\1{{ item }}\2'
     backrefs: 'yes'
