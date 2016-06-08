@@ -131,6 +131,16 @@
   tags: nginx
   notify: nginx reload
 
+- name: Remove default nginx site
+  file: path=/etc/nginx/sites-enabled/default owner=root group=root state=absent
+  tags: asymlink
+  notify: nginx reload
+
+- name: Enable alaveteli http nginx site
+  file: src=/etc/nginx/sites-available/alaveteli_http dest=/etc/nginx/sites-enabled/alaveteli_http owner=root group=root state=link
+  tags: asymlink
+  notify: nginx reload
+
 - name: Copy across the main Alaveteli config
   template: src=general.yml dest=/srv/www/shared/ owner=deploy group=deploy
   notify: nginx reload
@@ -235,7 +245,7 @@
 
 - name: Enable TLS in Nginx configs
   lineinfile:
-    dest: /etc/nginx/sites-enabled/alaveteli_https
+    dest: /etc/nginx/sites-available/alaveteli_https
     regexp: '(.*)#{{ item }}(.*)'
     line: '\1{{ item }}\2'
     backrefs: 'yes'
@@ -318,7 +328,7 @@
 
 - name: Copy nginx Varnish proxy site
   template:
-    dest: /etc/nginx/sites-enabled
+    dest: /etc/nginx/sites-available
     src: "https_to_varnish_proxy"
     mode: 0644
   tags: varnish
