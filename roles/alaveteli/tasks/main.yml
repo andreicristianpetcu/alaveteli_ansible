@@ -137,7 +137,10 @@
   notify: nginx reload
 
 - name: Enable alaveteli http nginx site
-  file: src=/etc/nginx/sites-available/alaveteli_http dest=/etc/nginx/sites-enabled/alaveteli_http owner=root group=root state=link
+  file: src="/etc/nginx/sites-available/{{ item }}" dest="/etc/nginx/sites-enabled/{{ item }}" owner=root group=root state=link
+  with_items:
+    - alaveteli_http
+    - https_to_varnish_proxy
   tags: asymlink
   notify: nginx reload
 
