@@ -9,6 +9,7 @@ letsencrypt_certs:
 letsencrypt_user: 'letsencrypt'
 letsencrypt_group: 'deploy'
 alaveteli_database: 'alaveteli'
+alaveteli_site_name: 'Nu Vă Supărați.info'
 db_password: "{{ encrypted_db_password }}"
 alavateli_incoming_email_secret: '{{ encrypted_alavateli_incoming_email_secret }}'
 alavateli_admin_password: '{{ encrypted_alavateli_admin_password }}'
