@@ -145,14 +145,13 @@
 
 - name: Remove default nginx site
   file: path=/etc/nginx/sites-enabled/default owner=root group=root state=absent
-  tags: asymlink
+  tags: nginx
   notify: nginx reload
 
 - name: Enable alaveteli http nginx site
   file: src="/etc/nginx/sites-available/{{ item }}" dest="/etc/nginx/sites-enabled/{{ item }}" owner=root group=root state=link
   with_items:
     - alaveteli_http
-    - https_to_varnish_proxy
   tags: asymlink
   notify: nginx reload
 
@@ -246,7 +245,7 @@
   register: letsencrypt_certificate
   tags: [ 'certificatechain', 'nondev', 'letsencrypt']
 
-- name: Copy over database configuration for application
+- name: Generate cetificate with root, intermediary and host certs
   template: src=certificatechain.pem dest="/etc/ssl/{{ alaveteli_host }}.pem" owner=root group=root mode=0644
   notify: nginx reload
   tags: [ 'certificatechain', 'nondev', 'nginx', 'letsencrypt']
@@ -332,3 +331,11 @@
   tags: varnish
   notify:
     - reload varnish
+
+- name: Enable alaveteli https nginx sites
+  file: src="/etc/nginx/sites-available/{{ item }}" dest="/etc/nginx/sites-enabled/{{ item }}" owner=root group=root state=link
+  with_items:
+    - alaveteli_https
+    - https_to_varnish_proxy
+  tags: [ 'nondev', 'https' ]
+  notify: nginx reload
