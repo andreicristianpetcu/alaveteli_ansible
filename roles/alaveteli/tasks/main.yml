@@ -122,6 +122,18 @@
     - nginx
     - https
 
+- name: Copy nginx proxy configs
+  template:
+    dest: /etc/nginx/proxy.conf
+    src: "proxy.conf"
+    mode: 0644
+  tags:
+    - varnish
+    - nginx
+    - https
+  notify:
+    - reload nginx
+
 - name: Copy nginx config for the app
   template: src={{ item }} dest="/etc/nginx/sites-available/{{ item }}" owner=root group=root mode=644
   with_items:
@@ -218,33 +230,34 @@
 - name: Load lets encrypt ROOT CA 
   shell: cat roles/alaveteli/files/certificates/DSTRootCAX3.crt
   register: letsencrypt_rootca  
-  tags: [ 'certificatechain' , 'nondev' ]
+  tags: [ 'certificatechain', 'nondev', 'letsencrypt']
   delegate_to: localhost
   changed_when: false
 
 - name: Load lets encrypt Intermediary CA
   shell: cat roles/alaveteli/files/certificates/lets-encrypt-x3-cross-signed.pem
   register: letsencrypt_intermediary
-  tags: [ 'certificatechain' , 'nondev' ]
+  tags: [ 'certificatechain', 'nondev', 'letsencrypt']
   delegate_to: localhost
   changed_when: false
 
 - name: Load lets encrypt Intermediary CA
   shell: "cat /etc/ssl/{{ alaveteli_host }}.crt"
   register: letsencrypt_certificate
-  tags: [ 'certificatechain' , 'nondev' ]
+  tags: [ 'certificatechain', 'nondev', 'letsencrypt']
 
 - name: Copy over database configuration for application
   template: src=certificatechain.pem dest="/etc/ssl/{{ alaveteli_host }}.pem" owner=root group=root mode=0644
   notify: nginx reload
-  tags: [ 'certificatechain', 'nondev', 'nginx' ]
+  tags: [ 'certificatechain', 'nondev', 'nginx', 'letsencrypt']
   changed_when: false
 
 - name: Generate strong DH params
   shell: "openssl dhparam -out /etc/ssl/private/{{ alaveteli_host }}_dhparams.pem 2048"
   args:
     creates: "/etc/ssl/private/{{ alaveteli_host }}_dhparams.pem"
-  tags: [ 'dhparams' , 'nondev' ]
+  tags: [ 'dhparams' , 'nondev', 'https', 'dhparams' ]
+  notify: nginx reload
 
 - name: Enable TLS in Nginx configs
   lineinfile:
@@ -319,21 +332,3 @@
   tags: varnish
   notify:
     - reload varnish
-
-- name: Copy nginx proxy configs
-  template:
-    dest: /etc/nginx/proxy.conf
-    src: "proxy.conf"
-    mode: 0644
-  tags: varnish
-  notify:
-    - reload nginx
-
-- name: Copy nginx Varnish proxy site
-  template:
-    dest: /etc/nginx/sites-available
-    src: "https_to_varnish_proxy"
-    mode: 0644
-  tags: varnish
-  notify:
-    - reload nginx
