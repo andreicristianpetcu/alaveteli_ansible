@@ -1,7 +1,7 @@
 # Development
 ## HTTP
 server {
-  listen 80;
+  listen {{ nginx_http_port }};
   server_name {{ alaveteli_host }};
 
   root /srv/www/current/public;

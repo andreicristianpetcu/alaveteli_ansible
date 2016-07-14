@@ -1,11 +1,11 @@
 # HTTPS
 server {
-  listen 8443;
+  listen {{ nginx_https_port }};
   server_name {{ alaveteli_host }};
   access_log  /var/log/nginx/access_https_to_varnish.log;
 
   location / {
-    proxy_pass      http://127.0.0.1:6081/;
+    proxy_pass      http://127.0.0.1:{{ varnish_http_port }}/;
     include         /etc/nginx/proxy.conf;
   }
 

@@ -1,6 +1,6 @@
 # HTTPS
 server {
-  listen 443 ssl;
+  listen {{ nginx_https_port }} ssl;
   server_name {{ alaveteli_host }};
 
   root /srv/www/current/public;

@@ -32,14 +32,7 @@
 - name: Allow Varnish traffic
   ufw:
     rule: allow
-    port: 6081
-    proto: tcp
-  tags: varnish
-
-- name: Allow Nginx varnish proxy for HTTPS
-  ufw:
-    rule: allow
-    port: 8443
+    port: '{{ varnish_http_port }}'
     proto: tcp
   tags: varnish
 

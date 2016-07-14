@@ -1,2 +1,5 @@
 ---
 # defaults file for alaveteli
+nginx_http_port: '8080'
+nginx_https_port: '8443'
+varnish_http_port: '80'

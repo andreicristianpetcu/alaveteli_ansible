@@ -322,11 +322,19 @@
 
 - name: Copy varnish configs
   template:
+    dest: /etc/default/varnish
+    src: "varnish/etc_varnish"
+    mode: 0644
+  tags: varnish
+  notify:
+    - reload varnish
+
+- name: Copy varnish backend
+  template:
     dest: /etc/{{ item }}
     src: "{{ item }}"
     mode: 0644
   with_items:
-    - varnish/default.vcl
     - varnish/varnish-alaveteli.vcl
   tags: varnish
   notify:

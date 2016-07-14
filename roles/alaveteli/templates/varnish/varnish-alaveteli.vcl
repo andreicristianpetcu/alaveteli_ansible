@@ -9,7 +9,7 @@
 
 backend default {
     .host = "127.0.0.1";
-    .port = "80";
+    .port = "{{ nginx_http_port }}";
     .connect_timeout = 600s;
     .first_byte_timeout = 600s;
     .between_bytes_timeout = 600s;
