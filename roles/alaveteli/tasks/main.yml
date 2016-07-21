@@ -68,7 +68,8 @@
     mode: 0755
   with_items:
     - foi-alert-tracks
-    #- foi-purge-varnish
+    - foi-purge-varnish
+  tags: startup
 
 - name: Create ACME nginx folder
   file: path=/etc/letsencrypt/webrootauth/.well-known/acme-challenge state=directory mode=0755
@@ -161,7 +162,7 @@
   tags: nginx
 
 - include: config_cron_jobs.yml
-  tags: crontab
+  tags: cron
 
 - name: Add deploy user to adm group so it can read mail logs
   user:
