@@ -142,6 +142,7 @@
     - alaveteli_http
     - alaveteli_https
     - https_to_varnish_proxy
+    - default
   tags: nginx
   notify: nginx reload
 
@@ -329,7 +330,7 @@
     mode: 0644
   tags: varnish
   notify:
-    - reload varnish
+    - varnish restart
 
 - name: Copy varnish backend
   template:
@@ -340,7 +341,7 @@
     - varnish/varnish-alaveteli.vcl
   tags: varnish
   notify:
-    - reload varnish
+    - varnish restart
 
 - name: Enable alaveteli https nginx sites
   file: src="/etc/nginx/sites-available/{{ item }}" dest="/etc/nginx/sites-enabled/{{ item }}" owner=root group=root state=link
