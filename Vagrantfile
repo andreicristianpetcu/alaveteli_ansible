@@ -27,6 +27,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
   end
 
+  config.vm.provision "shell", inline: "sudo ufw allow 8080"
+
   config.vm.provider "virtualbox" do |v|
     v.memory = 4096
     # Uncomment this and crank up the memory for a faster build
