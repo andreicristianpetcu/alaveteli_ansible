@@ -41,6 +41,7 @@
     - poppler-utils
     - elinks
     - ruby-rails
+    - libsqlite3-dev
   tags:
     - apt-get
     - packages
