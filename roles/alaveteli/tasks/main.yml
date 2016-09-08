@@ -135,7 +135,7 @@
     - nginx
     - https
   notify:
-    - reload nginx
+    - nginx reload
 
 - name: Copy nginx config for the app
   template: src={{ item }} dest="/etc/nginx/sites-available/{{ item }}" owner=root group=root mode=644
@@ -147,15 +147,10 @@
   tags: nginx
   notify: nginx reload
 
-- name: Remove default nginx site
-  file: path=/etc/nginx/sites-enabled/default owner=root group=root state=absent
-  tags: nginx
-  notify: nginx reload
-
-- name: Enable alaveteli http nginx site
+- name: Enable dumb default http for LE
   file: src="/etc/nginx/sites-available/{{ item }}" dest="/etc/nginx/sites-enabled/{{ item }}" owner=root group=root state=link
   with_items:
-    - alaveteli_http
+    - default
   tags: asymlink
   notify: nginx reload
 
@@ -262,6 +257,11 @@
   tags: [ 'dhparams' , 'nondev', 'https', 'dhparams' ]
   notify: nginx reload
 
+- name: Remove default nginx site
+  file: path=/etc/nginx/sites-enabled/default owner=root group=root state=absent
+  tags: nginx
+  notify: nginx reload
+
 - name: Enable TLS in Nginx configs
   lineinfile:
     dest: /etc/nginx/sites-available/alaveteli_https
@@ -347,6 +347,7 @@
 - name: Enable alaveteli https nginx sites
   file: src="/etc/nginx/sites-available/{{ item }}" dest="/etc/nginx/sites-enabled/{{ item }}" owner=root group=root state=link
   with_items:
+    - alaveteli_http
     - alaveteli_https
     - https_to_varnish_proxy
   tags: [ 'nondev', 'https' ]
