@@ -7,6 +7,7 @@ letsencrypt_certs:
     certpath: "/etc/ssl/{{ alaveteli_host }}.crt"
     host: "{{ alaveteli_host }}"
 letsencrypt_user: 'letsencrypt'
+acme_tiny_commit: 'daba51d37efd7c1f205f9da383b9b09968e30d29'
 letsencrypt_group: 'deploy'
 alaveteli_database: 'alaveteli'
 alaveteli_site_name: 'Nu Vă Supărați.info'
