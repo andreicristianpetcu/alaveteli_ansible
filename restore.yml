@@ -33,7 +33,6 @@
 
     - name: Migrate the database to the latest schema
       command: "su - deploy -c 'cd /srv/www/current && RAILS_ENV=production bundle exec rake db:migrate'"
-      notify: nginx restart
 
     #- name: Put rbenv in bashrc
     #  lineinfile:
@@ -67,3 +66,7 @@
     - name: Restart nginx
       service: name=nginx state=restarted
       tags: nginx
+
+    - name: Restart varnish
+      service: name=varnish state=restarted
+      tags: varnish
