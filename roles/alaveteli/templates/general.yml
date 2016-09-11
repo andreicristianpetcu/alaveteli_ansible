@@ -26,7 +26,7 @@ ISO_COUNTRY_CODE: RO
 TIME_ZONE: {{ alaveteli_time_zone }}
 
 # These feeds are displayed accordingly on the Alaveteli "blog" page:
-BLOG_FEED: 'https://www.openaustraliafoundation.org.au/category/projects/righttoknow-org-au/feed/'
+BLOG_FEED: 'http://blog.nuvasuparati.info/rss.xml'
 TWITTER_USERNAME: ''
 # Set the widget_id to get the Twitter sidebar on the blog page.
 # To get one https://twitter.com/settings/widgets
@@ -190,25 +190,7 @@ MTA_LOG_TYPE: "postfix"
 # URL where people can donate to the organisation running the site. If set,
 # this will be included in the message people see when their request is
 # successful.
-DONATION_URL: 'https://www.openaustraliafoundation.org.au/donate/righttoknow/'
-
-# If you set this to 'true' then a page of statistics on the
-# performance of public bodies will be available:
-PUBLIC_BODY_STATISTICS_PAGE: false
-
-# The page of statistics for public bodies will only consider public
-# bodies that have had at least this number of requests:
-MINIMUM_REQUESTS_FOR_STATISTICS: 20
-
-# If only some of the public bodies have been translated into every
-# available locale, you can allow a fallback to the default locale for
-# Whether we are using "exim" or "postfix" for our MTA
-MTA_LOG_TYPE: "postfix"
-
-# URL where people can donate to the organisation running the site. If set,
-# this will be included in the message people see when their request is
-# successful.
-DONATION_URL: 'https://www.openaustraliafoundation.org.au/donate/righttoknow/'
+DONATION_URL: 'https://www.mysociety.org/donate/'
 
 # If you set this to 'true' then a page of statistics on the
 # performance of public bodies will be available:
@@ -221,7 +203,7 @@ MINIMUM_REQUESTS_FOR_STATISTICS: 20
 # If only some of the public bodies have been translated into every
 # available locale, you can allow a fallback to the default locale for
 # listing of public bodies.
-PUBLIC_BODY_LIST_FALLBACK_TO_DEFAULT_LOCALE: false
+PUBLIC_BODY_LIST_FALLBACK_TO_DEFAULT_LOCALE: true
 
 # If true, while in development mode, try to send mail by SMTP to port
 # 1025 (the port the mailcatcher listens on by default):
