@@ -156,8 +156,10 @@
 
 - name: Copy across the main Alaveteli config
   template: src=general.yml dest=/srv/www/shared/ owner=deploy group=deploy
-  notify: nginx reload
-  tags: nginx
+  notify:
+    - nginx reload
+    - varnish restart
+  tags: nginx, generalyml
 
 - include: config_cron_jobs.yml
   tags: cron
