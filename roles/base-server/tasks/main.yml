@@ -4,30 +4,42 @@
   ufw:
     state: enabled
     policy: deny
+  tags: firewall
 
 - name: Allow rate-limited SSH trafic
   ufw:
     rule: limit
     port: ssh
     proto: tcp
+  tags: firewall
 
 - name: Allow HTTP traffic
   ufw:
     rule: allow
     port: http
     proto: tcp
+  tags: firewall
+
+- name: Allow extra HTTP traffic
+  ufw:
+    rule: allow
+    port: 8080
+    proto: tcp
+  tags: firewall
 
 - name: Allow HTTPS traffic
   ufw:
     rule: allow
     port: https
     proto: tcp
+  tags: firewall
 
 - name: Allow SMTP traffic
   ufw:
     rule: allow
     port: smtp
     proto: tcp
+  tags: firewall
 
 - name: Allow Varnish traffic
   ufw:
@@ -35,6 +47,7 @@
     port: '{{ varnish_http_port }}'
     proto: tcp
   tags: varnish
+  tags: firewall
 
 - name: Ensure git is installed
   apt:
