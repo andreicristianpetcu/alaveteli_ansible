@@ -27,6 +27,13 @@
     proto: tcp
   tags: firewall
 
+- name: Allow debug HTTP traffic
+  ufw:
+    rule: allow
+    port: 3000
+    proto: tcp
+  tags: firewall
+
 - name: Allow HTTPS traffic
   ufw:
     rule: allow
