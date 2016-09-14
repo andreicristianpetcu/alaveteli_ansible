@@ -12,6 +12,7 @@
   tasks:
     - name: Push email files from local to remote
       synchronize: src={{ backup_dir }}/files dest=/srv/www/current/ mode=push
+      tags: raw_emails
 
     - name: Push database backup
       synchronize: dest=/tmp/alaveteli.sql src={{ backup_dir }}/alaveteli.sql mode=push
