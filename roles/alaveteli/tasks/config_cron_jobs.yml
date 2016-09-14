@@ -1,6 +1,23 @@
 ---
-- name: Add alaveteli crontab entry
-  cron: name="foi-alert-tracks" minute="0,10,20,30,40,50" job="/bin/bash -l -c 'sudo /etc/init.d/foi-alert-tracks check'"
+- name: Setup GNU Bash as default shell
+  cron:
+    name: SHELL
+    env: yes
+    value: "/usr/bin/bash"
+    user: "{{ item }}"
+  with_items:
+    - root
+    - deploy
+
+- name: Setup PATH variable
+  cron:
+    name: PATH
+    env: yes
+    value: "/home/deploy/.rbenv/shims:/home/deploy/.rbenv/bin:/usr/local/bin:/usr/bin:/bin"
+    user: "{{ item }}"
+  with_items:
+    - root
+    - deploy
 
 - name: Add alaveteli crontab entry
   cron: name="foi-purge-varnish" minute="0,10,20,30,40,50" job="/bin/bash -l -c 'sudo /etc/init.d/foi-purge-varnish check'"
