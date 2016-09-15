@@ -23,6 +23,11 @@ acl purge {
 
 sub vcl_recv {
 
+   if ( req.http.X-Forwarded-Proto !~ "(?i)https") {
+        set req.http.X-Redir-Url = "https://" + req.http.Host + req.url;
+        error 750 req.http.X-Redir-Url;
+   }
+
    # Handle IPv6
    if (req.http.Host ~ "^ipv6.*") {
         set req.http.host = regsub(req.http.host, "^ipv6\.(.*)","www\.\1");
@@ -113,4 +118,12 @@ sub vcl_fetch {
         set beresp.ttl = 1m;
         return (deliver);
     }
+}
+
+sub vcl_error {
+  if (obj.status == 750) {
+    set obj.http.Location = obj.response;
+    set obj.status = 301;
+    return (deliver);
+  }
 }
