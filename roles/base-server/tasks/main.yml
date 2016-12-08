@@ -54,7 +54,6 @@
     port: '{{ varnish_http_port }}'
     proto: tcp
   tags: varnish
-  tags: firewall
 
 - name: Ensure git is installed
   apt:
