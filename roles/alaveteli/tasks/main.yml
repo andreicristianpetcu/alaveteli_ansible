@@ -20,6 +20,8 @@
 
 - name: Add mySociety Debian Package Repository key
   apt_key: url="https://debian.mysociety.org/debian.mysociety.org.gpg.key"
+  args:
+    validate_certs: false
 
 - name: Add mySociety Debian Package Repository
   apt_repository: repo="deb http://debian.mysociety.org squeeze main"
