@@ -16,7 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.sudo = true
 
     # Uncomment the following line if you want some verbose output from ansible
-    ansible.verbose = "vvvv"
+    # ansible.verbose = "vvvv"
 
     # Don't try to setup DNS stuff when running things through vagrant
     # because chances are we're just doing things with development VMs anyway

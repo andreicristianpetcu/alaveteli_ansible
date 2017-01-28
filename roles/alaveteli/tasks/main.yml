@@ -103,6 +103,16 @@
     name: '{{ letsencrypt_group }}'
     system: yes
 
+- name: Copy hardcoded certs for alaveteli.org.dev
+  template: src="roles/alaveteli/files/certificates/{{ item }}" dest="/etc/ssl/{{ item }}" owner=root group=root mode=644
+  with_items:
+    - alaveteli.org.dev.pem
+    - private/alaveteli.org.dev.key
+  tags:
+    - alaveteliorgdev
+    - https
+  notify: nginx reload
+
 - name: Ensure letsencrypt challange dir exists
   file:
     path: "{{ acme_tiny_challenges_directory }}"
@@ -160,7 +170,6 @@
   template: src=general.yml dest=/srv/www/shared/ owner=deploy group=deploy
   notify:
     - nginx reload
-    - varnish restart
   tags: nginx, generalyml
 
 - include: config_cron_jobs.yml
@@ -258,7 +267,7 @@
   shell: "openssl dhparam -out /etc/ssl/private/{{ alaveteli_host }}_dhparams.pem 2048"
   args:
     creates: "/etc/ssl/private/{{ alaveteli_host }}_dhparams.pem"
-  tags: [ 'dhparams' , 'nondev', 'https', 'dhparams' ]
+  tags: [ 'dhparams', 'https', 'dhparams' ]
   notify: nginx reload
 
 - name: Remove default nginx site
@@ -354,5 +363,5 @@
     - alaveteli_http
     - alaveteli_https
     - https_to_varnish_proxy
-  tags: [ 'nondev', 'https' ]
+  tags: [ 'https' ]
   notify: nginx reload
