@@ -17,6 +17,10 @@ It is based on [Open Australia's Infrastructure](https://github.com/openaustrali
 For starting local VMs for testing you will need [Vagrant](https://www.vagrantup.com/).
 For configuration management you will need [Ansible](http://docs.ansible.com/).
 
+```
+$ sudo -H pip2 install 'ansible==1.9.5'
+```
+
 Also
 ```
 $ vagrant plugin install vagrant-hostsupdater
