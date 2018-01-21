@@ -47,17 +47,17 @@ The default host is http://alaveteli.org.dev
 ### Staging & Production
 Set up encrypted variables with your won
 ```bash
-$rm -rf roles/alaveteli/vars/encrypted.yml
-$cp roles/alaveteli/vars/encrypted.example.yml roles/alaveteli/vars/encrypted.yml
-$ansible-vault encrypt roles/alaveteli/vars/encrypted.yml
-$ansible-vault edit roles/alaveteli/vars/encrypted.yml
+$ rm -rf roles/alaveteli/vars/encrypted.yml
+$ cp roles/alaveteli/vars/encrypted.example.yml roles/alaveteli/vars/encrypted.yml
+$ ansible-vault encrypt roles/alaveteli/vars/encrypted.yml
+$ ansible-vault edit roles/alaveteli/vars/encrypted.yml
 ```
 
 Set up hosts
 First make your hosts file resolve your staging/testing and production domains to the IP of the servers. At first provision the Internet and your computer will not know to resolv the domain.
 
 ```bash
-$cat /etc/hosts
+$ cat /etc/hosts
 37.139.34.1  test.mynewalaveteli.org
 37.139.34.2  mynewalaveteli.org
 ```
@@ -65,7 +65,7 @@ $cat /etc/hosts
 Also you need to tell Ansible that your hosts are part of the Alaveteli group
 
 ```bash
-$cat /etc/alaveteli/hosts
+$ cat /etc/alaveteli/hosts
 [alaveteli]
 #development
 alaveteli.org.dev
@@ -89,13 +89,21 @@ Please make sure you generated your own `encrypted_alaveteli_recaptcha_public_ke
 
 ### Alaveteli
 
-For the time being you will need to use the `update-rbenv-deploy` branch of the OpenAustralia
-Foundation Alaveteli repo as it contains some small fixes to allow capistrano to work with rbenv.
+Install rbenv https://github.com/rbenv/rbenv#installation and https://github.com/rbenv/ruby-build#installation
+
+```
+$ git clone https://github.com/andreicristianpetcu/fork_of_openaustralia_alaveteli.git
+$ cd alaveteli
+$ rbenv install
+$ gem install bundler capistrano
+$ sudo apt-get install libxslt-dev libxml2-dev
+$ bundler install
+```
 
 In your checked out copy of the Alaveteli repo add the following to `config/deploy.yml`
 
-```yaml
-# Site-specific deployment configuration lives in this file
+```bash
+echo "# Site-specific deployment configuration lives in this file
 production:
   branch: 0.23.2.2
   repository: git://github.com/andreicristianpetcu/alaveteli.git
@@ -116,7 +124,7 @@ development:
   server: alaveteli.org.dev
   user: deploy
   deploy_to: /srv/www
-  rails_env: production
+  rails_env: production" > config/deploy.yml
 ```
 
 This adds an extra staging for the capistrano deploy called `development`. This will deploy to your
