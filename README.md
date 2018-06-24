@@ -65,7 +65,7 @@ $ cat /etc/hosts
 Also you need to tell Ansible that your hosts are part of the Alaveteli group
 
 ```bash
-$ cat /etc/alaveteli/hosts
+$ cat /etc/ansible/hosts
 [alaveteli]
 #development
 alaveteli.org.dev
@@ -80,6 +80,8 @@ Provision a running server with:
 
     ansible-playbook site.yml -l test.mynewalaveteli.org
     ansible-playbook site.yml -l mynewalaveteli.org
+    ansible-playbook site.yml -l mynewalaveteli.org --tags https,letsencrypt,nginx
+
 
 If you setup your encrypted_route53_key and encrypted_route53_secret in `encrypted.yml` you will also provision the DNS settings.
 
