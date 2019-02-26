@@ -15,12 +15,14 @@
   authorized_key: user=deploy key="{{ lookup('file', item) }}"
   with_fileglob:
     - /tmp/*.github_authorized_keys
+  tags: authorized_keys
 
 - name: Create authorized_keys for root from the file that just downloaded
   authorized_key: user=root key="{{ lookup('file', item) }}"
   with_fileglob:
     - /tmp/*.github_authorized_keys
   register: add_authorized_keys
+  tags: authorized_keys
 
 - name: Only allow ssh access with keys
   lineinfile: dest=/etc/ssh/sshd_config state=present regexp="^#?PasswordAuthentication" line="PasswordAuthentication no"
