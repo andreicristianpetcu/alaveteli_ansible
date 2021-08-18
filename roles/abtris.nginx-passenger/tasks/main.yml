@@ -1,18 +1,33 @@
 ---
 - name: Remove apache2
   apt: name=apache2 state=absent
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Add key for passenger
   apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0xAC40B2F7 state=present
+  become: true
+  become_method: sudo
+  become_user: "root"
   
 - name: Apt via https
   apt: name=apt-transport-https state=present
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Apt add passenger to list  
   apt_repository: repo='deb https://oss-binaries.phusionpassenger.com/apt/passenger {{ansible_distribution_release}} main' state=present update_cache=yes  
+  become: true
+  become_method: sudo
+  become_user: "root"
   
 - name: Install nginx
-  action: apt pkg={{ item }} state=installed
+  action: apt pkg={{ item }} state=present
   with_items:
    - nginx-extras 
    - passenger
+  become: true
+  become_method: sudo
+  become_user: "root"

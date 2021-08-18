@@ -1,3 +1,5 @@
 - name: update aliases database
   command: newaliases
-  sudo: yes
+  become: true
+  become_method: sudo
+  # sudo: yes

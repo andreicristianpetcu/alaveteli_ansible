@@ -7,6 +7,8 @@
     owner: deploy
     group: deploy
     path: "{{item}}"
+  become: true
+  become_method: sudo
   with_items:
     - /srv/www
     - /srv/www/shared
@@ -15,8 +17,11 @@
 # TODO When gem is already installed stop it from saying something has changed
 - name: Install bundler gem
   command: bash -lc "gem install bundler"
-  sudo: true
-  sudo_user: deploy
+  # sudo: true
+  # sudo_user: deploy
+  become: true
+  become_method: sudo
+  become_user: "deploy"
 
 - name: Add mySociety Debian Package Repository key
   apt_key: url="https://debian.mysociety.org/debian.mysociety.org.gpg.key"

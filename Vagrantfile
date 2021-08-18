@@ -8,12 +8,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   alaveteli_host = "alaveteli.org.dev"
 
-  config.vm.box = "ubuntu/trusty64"
+  # config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/focal64"
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "site.yml"
 
-    ansible.sudo = true
+    # ansible.sudo = true
+    ansible.become = true
+    ansible.become_user = "vagrant"
 
     # Uncomment the following line if you want some verbose output from ansible
     # ansible.verbose = "vvvv"
@@ -21,9 +24,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Don't try to setup DNS stuff when running things through vagrant
     # because chances are we're just doing things with development VMs anyway
     ansible.skip_tags = "nondev"
+    # ansible.tags = "rbenv"
 
     ansible.groups = {
       "alaveteli" => ["#{alaveteli_host}"]
+    }
+    ansible.host_vars = {
+      "#{alaveteli_host}" => {
+        "ansible_user" => "vagrant",
+        "ansible_port" => "2222",
+        # "ansible_distribution_release" => "trusty"
+        # $(lsb_release -cs)
+      }
     }
   end
 

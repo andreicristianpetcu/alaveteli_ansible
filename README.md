@@ -24,6 +24,7 @@ $ sudo -H pip2 install 'ansible==1.9.5'
 Also
 ```
 $ vagrant plugin install vagrant-hostsupdater
+$ vagrant plugin install vagrant-vbguest
 ```
 
 Create a file in your home directory `~/.infrastructure_ansible_vault_pass.txt` with the secret
