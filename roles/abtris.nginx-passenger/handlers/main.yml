@@ -1,9 +1,18 @@
 ---
 - name: nginx restart
   service: name=nginx state=restarted
+  become: true
+  become_method: sudo
+  become_user: "root"
   
 - name: nginx update-rc.d
   shell: update-rc.d nginx defaults
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: nginx reload
   service: name=nginx state=reloaded
+  become: true
+  become_method: sudo
+  become_user: "root"
