@@ -51,8 +51,6 @@
     dest: "{{ rbenv_root }}"
     version: "{{ rbenv.version }}"
     accept_hostkey: true
-  # sudo: true
-  # sudo_user: "{{ item }}"
   become: true
   become_method: sudo
   become_user: "{{ item }}"
@@ -65,8 +63,6 @@
 - name: create plugins directory for selected users
   file: state=directory path={{ rbenv_root }}/plugins
   with_items: "{{ rbenv_users }}"
-  # sudo: true
-  # sudo_user: "{{ item }}"
   become: true
   become_method: sudo
   become_user: "{{ item }}"
@@ -84,8 +80,6 @@
   with_nested:
     - "{{ rbenv_users }}"
     - "{{ rbenv_plugins }}"
-  # sudo: true
-  # sudo_user: "{{ item[0] }}"
   become: true
   become_method: sudo
   become_user: "{{ item[0] }}"
@@ -96,7 +90,6 @@
 
 - name: add rbenv initialization to profile system-wide
   template: src=rbenv.sh.j2 dest=/etc/profile.d/rbenv.sh owner=root group=root mode=0755
-  # sudo: true
   become: true
   become_method: sudo
   become_user: "root"
@@ -108,8 +101,6 @@
 - name: set default-gems for select users
   copy: src=default-gems dest={{ rbenv_root }}/default-gems
   with_items: "{{ rbenv_users }}"
-  # sudo: true
-  # sudo_user: "{{ item }}"
   become: true
   become_method: sudo
   become_user: "{{ item }}"
@@ -123,8 +114,6 @@
 - name: set custom default-gems for select users
   copy: src={{ default_gems_file }} dest={{ rbenv_root }}/default-gems
   with_items: "{{ rbenv_users }}"
-  # sudo: true
-  # sudo_user: "{{ item }}"
   become: true
   become_method: sudo
   become_user: "{{ item }}"
@@ -138,8 +127,6 @@
 - name: set gemrc for select users
   copy: src=gemrc dest=~/.gemrc
   with_items: "{{ rbenv_users }}"
-  # sudo: true
-  # sudo_user: "{{ item }}"
   become: true
   become_method: sudo
   become_user: "{{ item }}"
@@ -151,8 +138,6 @@
 - name: set vars for select users
   copy: src=vars dest={{ rbenv_root }}/vars
   with_items: "{{ rbenv_users }}"
-  # sudo: true
-  # sudo_user: "{{ item }}"
   become: true
   become_method: sudo
   become_user: "{{ item }}"
@@ -166,6 +151,10 @@
   register: ruby_installed
   changed_when: false
   ignore_errors: yes
+  with_items: "{{ rbenv_users }}"
+  become: true
+  become_method: sudo
+  become_user: "{{ item }}"
   when: rbenv.env == "system"
   tags:
     - rbenv
@@ -188,8 +177,6 @@
 
 - name: check ruby {{ rbenv.ruby_version }} installed for select users
   shell: $SHELL -lc "rbenv versions | grep {{ rbenv.ruby_version }}"
-  # sudo: true
-  # sudo_user: "{{ item }}"
   become: true
   become_method: sudo
   become_user: "{{ item }}"
@@ -202,14 +189,12 @@
 
 - name: install ruby {{ rbenv.ruby_version }} for select users
   shell: $SHELL -lc "rbenv install {{ rbenv.ruby_version }}"
-  # sudo: true
-  # sudo_user: "{{ item[1] }}"
   become: true
   become_method: sudo
   become_user: "{{ item[1] }}"
   with_together:
-    - ruby_installed.results
-    - rbenv_users
+    - "{{ ruby_installed.results }}"
+    - "{{ rbenv_users }}"
   when: (not "system" == "{{ rbenv.env }}") and (item[0].rc != 0)
   ignore_errors: true
   tags:
@@ -217,14 +202,12 @@
 
 - name: install ruby {{ rbenv.ruby_version }} for select users
   shell: $SHELL -lc "rbenv global {{ rbenv.ruby_version }} && rbenv rehash"
-  # sudo: true
-  # sudo_user: "{{ item[1] }}"
   become: true
   become_method: sudo
   become_user: "{{ item[1] }}"
   with_together:
-    - ruby_installed.results
-    - rbenv_users
+    - "{{ ruby_installed.results }}"
+    - "{{ rbenv_users }}"
   when: (not "system" == "{{ rbenv.env }}") and (item[0].rc != 0)
   ignore_errors: true
   tags:
