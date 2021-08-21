@@ -12,7 +12,6 @@
     line: "{{ item.user }}: {{ item.alias }}"
     regexp: "^{{ item.user }}:"
   with_items: "{{ aliases }}"
-  # sudo: yes
   notify: update aliases database
   become: true
   become_method: sudo

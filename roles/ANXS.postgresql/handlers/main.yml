@@ -4,3 +4,6 @@
   service:
     name: postgresql
     state: restarted
+  become: true
+  become_method: sudo
+  become_user: "root"

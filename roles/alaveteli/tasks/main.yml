@@ -46,7 +46,7 @@
     - libmagickwand-dev
     - xapian-tools
     - uuid-dev
-    - wkhtmltopdf-static
+    - wkhtmltopdf
     - pdftk
     - imagemagick
     - wv

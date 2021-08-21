@@ -28,6 +28,7 @@
   with_items:
    - nginx-extras 
    - passenger
+   - libnginx-mod-http-passenger
   become: true
   become_method: sudo
   become_user: "root"

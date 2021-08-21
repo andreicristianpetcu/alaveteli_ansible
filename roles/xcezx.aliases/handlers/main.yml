@@ -2,4 +2,4 @@
   command: newaliases
   become: true
   become_method: sudo
-  # sudo: yes
+  become_user: "root"
