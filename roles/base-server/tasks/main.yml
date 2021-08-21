@@ -86,6 +86,13 @@
   become_method: sudo
   become_user: "root"
 
+- name: Ensure acl is installed
+  apt:
+    pkg: acl
+  become: true
+  become_method: sudo
+  become_user: "root"
+
 # Setup timezone stuff
 
 - name: Install tzdata package

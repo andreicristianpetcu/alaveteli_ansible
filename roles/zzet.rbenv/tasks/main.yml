@@ -54,7 +54,7 @@
   # sudo: true
   # sudo_user: "{{ item }}"
   become: true
-  # become_method: sudo
+  become_method: sudo
   become_user: "{{ item }}"
   with_items: "{{ rbenv_users }}"
   when: not "system" == "{{ rbenv.env }}"
