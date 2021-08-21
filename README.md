@@ -18,7 +18,7 @@ For starting local VMs for testing you will need [Vagrant](https://www.vagrantup
 For configuration management you will need [Ansible](http://docs.ansible.com/).
 
 ```
-$ sudo -H pip2 install 'ansible==1.9.5'
+$ sudo -H pip install 'ansible==2.11.4'
 ```
 
 Also

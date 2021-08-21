@@ -1,13 +1,13 @@
 # file: postgresql/tasks/install.yml
 
-# - name: PostgreSQL | Make sure the dependencies are installed
-#   apt:
-#     pkg: "{{item}}"
-#     state: present
-#   with_items: ["python-psycopg2", "python-pycurl"]
-#   become: true
-#   become_method: sudo
-#   become_user: "root"
+- name: PostgreSQL | Make sure the dependencies are installed
+  apt:
+    pkg: "{{item}}"
+    state: present
+  with_items: ["python3-psycopg2", "python-pycurl"]
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: PostgreSQL | Add PostgeSQL repository apt-key
   apt_key:
