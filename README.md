@@ -45,6 +45,18 @@ If it's already up you can re-run Ansible provisioning with:
 
 The default host is http://alaveteli.org.dev
 
+A good workflow for development is to first boot up the image withut any provision, take a snapshot and then provision.
+
+```
+vagrant up --no-provision ; vagrant snapshot save before-provision ; vagrant provision
+```
+
+After major changes, go to the last snapshot and re-provision it.
+
+```
+vagrant snapshot restore before-provision ; vagrant provision
+```
+
 ### Staging & Production
 Set up encrypted variables with your won
 ```bash

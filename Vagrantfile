@@ -24,7 +24,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Don't try to setup DNS stuff when running things through vagrant
     # because chances are we're just doing things with development VMs anyway
     ansible.skip_tags = "nondev"
-    # ansible.tags = "chown"
+    # ansible.tags = "sites"
 
     ansible.groups = {
       "alaveteli" => ["#{alaveteli_host}"]

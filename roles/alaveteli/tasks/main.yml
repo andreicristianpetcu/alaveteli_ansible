@@ -56,6 +56,7 @@
     - elinks
     - ruby-rails
     - libsqlite3-dev
+    - nginx
   tags:
     - apt-get
     - packages
@@ -210,7 +211,9 @@
     - alaveteli_https
     - https_to_varnish_proxy
     - default
-  tags: nginx
+  tags:
+    - nginx
+    - sites
   notify: nginx reload
   become: true
   become_method: sudo
@@ -218,6 +221,9 @@
 
 - name: Enable dumb default http for LE
   file: src="/etc/nginx/sites-available/{{ item }}" dest="/etc/nginx/sites-enabled/{{ item }}" owner=root group=root state=link
+  tags:
+    - nginx
+    - sites
   with_items:
     - default
   tags: asymlink
@@ -346,6 +352,9 @@
 
 - name: Generate strong DH params
   shell: "openssl dhparam -out /etc/ssl/private/{{ alaveteli_host }}_dhparams.pem 2048"
+  become: true
+  become_method: sudo
+  become_user: "root"
   args:
     creates: "/etc/ssl/private/{{ alaveteli_host }}_dhparams.pem"
   tags: [ 'dhparams', 'https', 'dhparams' ]
@@ -469,8 +478,8 @@
   file: src="/etc/nginx/sites-available/{{ item }}" dest="/etc/nginx/sites-enabled/{{ item }}" owner=root group=root state=link
   with_items:
     - alaveteli_http
-    - alaveteli_https
-    - https_to_varnish_proxy
+    # - alaveteli_https
+    # - https_to_varnish_proxy
   tags: [ 'https' ]
   notify: nginx reload
   become: true
