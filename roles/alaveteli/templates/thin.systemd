@@ -1,0 +1,9 @@
+[Unit]
+Description=Alaveteli thin daemon
+Type=simple
+ExecStart=/opt/scripts/run-backup.sh --full --to-external
+Restart=on-failure
+User=srvuser
+WorkingDirectory=/var/yourservice
+#RuntimeDirectory=yourservice
+#RuntimeDirectoryMode=0755

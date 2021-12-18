@@ -22,4 +22,4 @@ route53_key: "{{ encrypted_route53_key }}"
 route53_secret: "{{ encrypted_route53_secret }}"
 alaveteli_time_zone: "Europe/Bucharest"
 alaveteli_admin_email: '{{ encrypted_alaveteli_admin_email }}'
-github_users: ['andreicristianpetcu', 'petre2dor', 'catileptic']
+github_users: ['andreicristianpetcu', 'petre2dor']

@@ -18,12 +18,13 @@ For starting local VMs for testing you will need [Vagrant](https://www.vagrantup
 For configuration management you will need [Ansible](http://docs.ansible.com/).
 
 ```
-$ sudo -H pip2 install 'ansible==1.9.5'
+$ sudo -H pip install 'ansible==2.11.4'
 ```
 
 Also
 ```
 $ vagrant plugin install vagrant-hostsupdater
+$ vagrant plugin install vagrant-vbguest
 ```
 
 Create a file in your home directory `~/.infrastructure_ansible_vault_pass.txt` with the secret
@@ -43,6 +44,18 @@ If it's already up you can re-run Ansible provisioning with:
     vagrant provision
 
 The default host is http://alaveteli.org.dev
+
+A good workflow for development is to first boot up the image withut any provision, take a snapshot and then provision.
+
+```
+vagrant up --no-provision ; vagrant snapshot save before-provision ; vagrant provision
+```
+
+After major changes, go to the last snapshot and re-provision it.
+
+```
+vagrant snapshot restore before-provision ; vagrant provision
+```
 
 ### Staging & Production
 Set up encrypted variables with your won

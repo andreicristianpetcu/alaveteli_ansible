@@ -5,18 +5,30 @@
   service:
     name: postfix
     state: reloaded
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: nginx restart
   service:
     name: nginx
     state: restarted
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: varnish restart
   service:
     name: varnish
     state: restarted
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: nginx reload
   service:
     name: nginx
     state: reloaded
+  become: true
+  become_method: sudo
+  become_user: "root"

@@ -5,7 +5,12 @@ server {
   access_log  /var/log/nginx/access_https_to_varnish.log;
 
   location / {
-    add_header Strict-Transport-Security "max-age=3600";
+    #The TLS settings will be enabled only after Let's Encrypt runs the ACME challange
+    {% if alaveteli_host == 'alaveteli.org.dev' %}
+    add_header Strict-Transport-Security max-age=0;
+    {% else %}
+    add_header Strict-Transport-Security max-age=31536000;
+    {% endif %}
     # ABOVE FOR TESTING ONLY - once you're happy, use a longer policy time eg
     # add_header Strict-Transport-Security max-age=86400;
     proxy_set_header "X-Forwarded-For" $proxy_add_x_forwarded_for;
@@ -14,8 +19,12 @@ server {
     include         /etc/nginx/proxy.conf;
   }
 
-  #The TLS settings will be enabled only after Let's Encrypt runs the ACME challange
+  {% if alaveteli_host == 'alaveteli.org.dev' %}
+  add_header Strict-Transport-Security max-age=0;
+  {% else %}
   add_header Strict-Transport-Security max-age=31536000;
+  {% endif %}
+  #The TLS settings will be enabled only after Let's Encrypt runs the ACME challange
   ssl on;
   ssl_certificate /etc/ssl/{{ alaveteli_host }}.pem;
   ssl_certificate_key /etc/ssl/private/{{ alaveteli_host }}.key;

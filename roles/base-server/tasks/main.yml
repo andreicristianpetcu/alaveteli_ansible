@@ -5,6 +5,9 @@
     state: enabled
     policy: deny
   tags: firewall
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Allow rate-limited SSH trafic
   ufw:
@@ -12,6 +15,9 @@
     port: ssh
     proto: tcp
   tags: firewall
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Allow HTTP traffic
   ufw:
@@ -19,6 +25,9 @@
     port: http
     proto: tcp
   tags: firewall
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Allow extra HTTP traffic
   ufw:
@@ -26,6 +35,9 @@
     port: 8080
     proto: tcp
   tags: firewall
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Allow debug HTTP traffic
   ufw:
@@ -33,6 +45,9 @@
     port: 3000
     proto: tcp
   tags: firewall
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Allow HTTPS traffic
   ufw:
@@ -40,6 +55,9 @@
     port: https
     proto: tcp
   tags: firewall
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Allow SMTP traffic
   ufw:
@@ -47,6 +65,9 @@
     port: smtp
     proto: tcp
   tags: firewall
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Allow Varnish traffic
   ufw:
@@ -54,16 +75,35 @@
     port: '{{ varnish_http_port }}'
     proto: tcp
   tags: varnish
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Ensure git is installed
   apt:
     pkg: git
+  become: true
+  become_method: sudo
+  become_user: "root"
+
+- name: Ensure acl is installed
+  apt:
+    pkg: acl
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 # Setup timezone stuff
 
 - name: Install tzdata package
   apt: pkg=tzdata state=present
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Set timezone in /etc/timezone
   copy: content="{{ alaveteli_time_zone }}\n" dest=/etc/timezone
   notify: Update timezone
+  become: true
+  become_method: sudo
+  become_user: "root"

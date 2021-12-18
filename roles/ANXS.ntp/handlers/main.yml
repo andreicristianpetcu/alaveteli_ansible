@@ -4,3 +4,6 @@
   service:
     name: ntp
     state: restarted
+  become: true
+  become_method: sudo
+  become_user: "root"

@@ -9,7 +9,9 @@
     - libxml2-dev
     - libxslt1-dev
     - zlib1g-dev
-  sudo: true
+  become: true
+  become_method: sudo
+  become_user: "root"
   tags:
     - rbenv
 

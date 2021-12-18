@@ -6,3 +6,6 @@
     state: present
   notify:
     - restart postgresql
+  become: true
+  become_method: sudo
+  become_user: "root"

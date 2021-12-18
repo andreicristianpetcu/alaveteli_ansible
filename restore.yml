@@ -19,9 +19,15 @@
 
     - name: Stop nginx
       service: name=nginx state=stopped
+      become: true
+      become_method: sudo
+      become_user: "root"
 
     - name: Restart postgresql to drop all connections
       service: name=postgresql state=restarted
+      become: true
+      become_method: sudo
+      become_user: "root"
 
     - name: Drop old databse
       command: "su - postgres -c 'dropdb alaveteli'"

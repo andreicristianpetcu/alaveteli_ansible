@@ -1,25 +1,57 @@
-# Development
-## HTTP
+upstream alaveteli {
+    server 127.0.0.1:3000;
+}
+
+# Example to redirect other domains to the canonical URL. Also redirects the
+# unqualified domain to the FQDN www.example.com, which is recommended.
+#
+# server {
+#   server_name example.com example.org www.example.org;
+#   rewrite ^(.*) http://www.example.com$1 permanent;
+# }
+
 server {
-  listen {{ nginx_http_port }};
-  server_name {{ alaveteli_host }};
+    listen {{ nginx_http_port }};
+    # Set the server name to your domain name if you have multiple nginx servers
+    # running on your machine
+    server_name {{ alaveteli_host }};
+    root /var/www/alaveteli/alaveteli/public;
 
-  root /srv/www/current/public;
-  passenger_enabled on;
-  passenger_ruby /home/deploy/.rbenv/shims/ruby;
+    server_tokens off;
 
-  # ACME Challange location
-  location /.well-known/acme-challenge {
-    alias /var/www/letsencrypt/;
-    location ~ /.well-known/acme-challenge/(.*) {
-      add_header Content-Type application/jose+json;
+    access_log /var/log/nginx/alaveteli_access.log;
+    error_log /var/log/nginx/alaveteli_error.log error;
+
+    try_files /down.html $uri/index.html $uri @alaveteli;
+
+
+    location /download {
+        internal;
+        alias /var/www/alaveteli/alaveteli/cache/zips/production/download;
     }
-  }
 
-  location ^~ /assets/ {
-    gzip_static on;
-    expires max;
-    add_header Cache-Control public;
-  }
+    location @alaveteli {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto http;
+        proxy_set_header X-Sendfile-Type X-Accel-Redirect;
+        proxy_set_header X-Accel-Mapping /var/www/alaveteli/alaveteli/cache/zips/production/download=/download;
+        proxy_redirect off;
+        proxy_pass http://alaveteli;
+    }
+
+    # Allow browser asset caching
+    location ~* ^/(assets).*\.(ico|gif|jpe?g|png|js|css|svg|ttf|otf|eot|woff)$ {
+        expires 1y;
+    }
+
+    # ACME Challange location
+    location /.well-known/acme-challenge {
+      alias /var/www/letsencrypt/;
+      location ~ /.well-known/acme-challenge/(.*) {
+        add_header Content-Type application/jose+json;
+      }
+    }
 
 }

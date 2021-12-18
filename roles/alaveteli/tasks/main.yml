@@ -7,24 +7,36 @@
     owner: deploy
     group: deploy
     path: "{{item}}"
+  become: true
+  become_method: sudo
+  become_user: "root"
   with_items:
     - /srv/www
     - /srv/www/shared
+  tags:
+    - chown
 
 # Installing via bash so that rbenv is used. Otherwise would install gems for default system ruby
 # TODO When gem is already installed stop it from saying something has changed
 - name: Install bundler gem
   command: bash -lc "gem install bundler"
-  sudo: true
-  sudo_user: deploy
+  become: true
+  become_method: sudo
+  become_user: "deploy"
 
 - name: Add mySociety Debian Package Repository key
   apt_key: url="https://debian.mysociety.org/debian.mysociety.org.gpg.key"
   args:
     validate_certs: false
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Add mySociety Debian Package Repository
-  apt_repository: repo="deb http://debian.mysociety.org squeeze main"
+  apt_repository: repo="deb http://debian.mysociety.org {{ansible_distribution_release}} main"
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Install packages required by Alaveteli
   apt: name={{ item }} state=present
@@ -34,7 +46,7 @@
     - libmagickwand-dev
     - xapian-tools
     - uuid-dev
-    - wkhtmltopdf-static
+    - wkhtmltopdf
     - pdftk
     - imagemagick
     - wv
@@ -44,12 +56,19 @@
     - elinks
     - ruby-rails
     - libsqlite3-dev
+    - nginx
   tags:
     - apt-get
     - packages
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Install lockfile-progs for run-with-lockfile.sh
   apt: name=lockfile-progs
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Link run-with-lockfile.sh so is not available system-wide
   file:
@@ -57,6 +76,9 @@
     dest: "/usr/bin/run-with-lockfile"
     state: link
     force: yes
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - include: create_postgresqldb.yml
 
@@ -64,6 +86,9 @@
   template: src=database.yml dest=/srv/www/shared/database.yml owner=deploy group=deploy
   notify: nginx reload
   tags: nginx
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Copy init scripts for daemons
   copy:
@@ -74,16 +99,25 @@
     - foi-alert-tracks
     - foi-purge-varnish
   tags: startup
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Create ACME nginx folder
   file: path=/etc/letsencrypt/webrootauth/.well-known/acme-challenge state=directory mode=0755
   tags: nginx
   notify: nginx restart
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Generate the overall nginx config
   template: src=nginx.conf dest=/etc/nginx/nginx.conf
   tags: nginx
   notify: nginx reload
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Copy test/test password for staging site
   copy:
@@ -91,17 +125,26 @@
     dest: /etc/nginx/
   notify: nginx reload
   tags: nginx
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Create LE user
   user:
     name: '{{ letsencrypt_user }}'
     home: '{{ acme_tiny_data_directory }}'
     system: yes
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Create LE group
   group:
     name: '{{ letsencrypt_group }}'
     system: yes
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Copy hardcoded certs for alaveteli.org.dev
   template: src="roles/alaveteli/files/certificates/{{ item }}" dest="/etc/ssl/{{ item }}" owner=root group=root mode=644
@@ -112,6 +155,9 @@
     - alaveteliorgdev
     - https
   notify: nginx reload
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Ensure letsencrypt challange dir exists
   file:
@@ -124,6 +170,9 @@
   tags:
     - nginx
     - https
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Put a dummy file in LE folder
   file:
@@ -136,6 +185,9 @@
   tags:
     - nginx
     - https
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Copy nginx proxy configs
   template:
@@ -148,6 +200,9 @@
     - https
   notify:
     - nginx reload
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Copy nginx config for the app
   template: src={{ item }} dest="/etc/nginx/sites-available/{{ item }}" owner=root group=root mode=644
@@ -156,21 +211,35 @@
     - alaveteli_https
     - https_to_varnish_proxy
     - default
-  tags: nginx
+  tags:
+    - nginx
+    - sites
   notify: nginx reload
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Enable dumb default http for LE
   file: src="/etc/nginx/sites-available/{{ item }}" dest="/etc/nginx/sites-enabled/{{ item }}" owner=root group=root state=link
+  tags:
+    - nginx
+    - sites
   with_items:
     - default
   tags: asymlink
   notify: nginx reload
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Copy across the main Alaveteli config
   template: src=general.yml dest=/srv/www/shared/ owner=deploy group=deploy
   notify:
     - nginx reload
   tags: nginx, generalyml
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - include: config_cron_jobs.yml
   tags: cron
@@ -180,6 +249,9 @@
     name: deploy
     groups: adm
     append: yes
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Copy run-with-rbenv-path for postfix
   copy:
@@ -189,12 +261,18 @@
   tags: postfix
   notify:
     - reload postfix
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Set the hostname
   command: hostname {{ alaveteli_host }}
   tags: hostname
   notify:
     - reload postfix
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Point host to localhost
   lineinfile:
@@ -205,6 +283,9 @@
   tags: hostname
   notify:
     - reload postfix
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Set the alaveteli name in mailname
   lineinfile:
@@ -215,6 +296,9 @@
   tags: mailname postfix
   notify:
     - reload postfix
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Copy postfix scripts for daemons
   template:
@@ -230,6 +314,9 @@
   tags: postfix
   notify:
     - reload postfix
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Flush handlers for LE and Nginx
   meta: flush_handlers
@@ -265,6 +352,9 @@
 
 - name: Generate strong DH params
   shell: "openssl dhparam -out /etc/ssl/private/{{ alaveteli_host }}_dhparams.pem 2048"
+  become: true
+  become_method: sudo
+  become_user: "root"
   args:
     creates: "/etc/ssl/private/{{ alaveteli_host }}_dhparams.pem"
   tags: [ 'dhparams', 'https', 'dhparams' ]
@@ -274,6 +364,9 @@
   file: path=/etc/nginx/sites-enabled/default owner=root group=root state=absent
   tags: nginx
   notify: nginx reload
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Enable TLS in Nginx configs
   lineinfile:
@@ -293,6 +386,9 @@
     - "ssl_dhparam "
   tags: [ 'letsencrypt', 'nondev', 'https', 'nginx']
   notify: nginx reload
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Check if general.yml exists
   stat: path=/srv/www/current/config/general.yml
@@ -301,6 +397,9 @@
     - nginx
     - https
     - letsencrypt
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Set FORCE_SSL to true
   lineinfile:
@@ -312,11 +411,17 @@
   tags: [ 'https', 'nondev' ]
   notify:
     - nginx reload
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Check rails env file
   stat: path=/srv/www/current/config/rails_env.rb
   register: rails_env_file
   tags: nginx
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Set default environment to production
   lineinfile:
@@ -327,6 +432,9 @@
   tags: nginx
   notify:
     - nginx reload
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Install varnish
   apt: name={{ item }} state=present
@@ -336,6 +444,9 @@
     - apt-get
     - packages
     - varnish
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Copy varnish configs
   template:
@@ -345,6 +456,9 @@
   tags: varnish
   notify:
     - varnish restart
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Copy varnish backend
   template:
@@ -356,12 +470,18 @@
   tags: varnish
   notify:
     - varnish restart
+  become: true
+  become_method: sudo
+  become_user: "root"
 
 - name: Enable alaveteli https nginx sites
   file: src="/etc/nginx/sites-available/{{ item }}" dest="/etc/nginx/sites-enabled/{{ item }}" owner=root group=root state=link
   with_items:
     - alaveteli_http
-    - alaveteli_https
-    - https_to_varnish_proxy
+    # - alaveteli_https
+    # - https_to_varnish_proxy
   tags: [ 'https' ]
   notify: nginx reload
+  become: true
+  become_method: sudo
+  become_user: "root"
